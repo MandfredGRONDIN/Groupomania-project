@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt');
-const { SHA256 } = require('crypto-js');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
@@ -8,12 +7,9 @@ exports.signup = async (req, res) => {
     console.log(req.body)
     try{
         let hash = await bcrypt.hash(req.body.password, 10)
-        let hmacSHA256 = await SHA256(req.body.email + `${process.env.CRYPTOJS_EMAIL}`)
-        console.log(req.body.password);
-        console.log(req.body.passwordCheck);
         let user = new User ({
             pseudo: req.body.pseudo,
-            email: hmacSHA256,
+            email: req.body.email,
             password: hash,
         });
         if(req.body.password != req.body.passwordCheck){
@@ -26,13 +22,33 @@ exports.signup = async (req, res) => {
         if(e.errors && e.errors.email && e.errors.email.kind === 'unique'){ 
             return res.status(400).json({message : 'Existing email'})
         }
-        if(e.errors && e.errors.pseudo  === 'unique'){
+        if(e.errors && e.errors.pseudo && e.errors.pseudo.kind  === 'unique'){
             return res.status(400).json({message : 'Existing pseudo'})
         }
         return res.status(500).json({ message: 'Internal error' })
     }
 }
 
-exports.login = (req, res, next) => {
-
+exports.login = async (req, res) => {
+    try {
+        let user = await User.findOne({ email: req.body.email });
+        if(!user) {
+            return res.status(404).json({ error: 'User not find !' });
+        }
+        let valid = await bcrypt.compare(req.body.password, user.password);
+        if (!valid) {
+            return res.status(401).json({ error: 'Incorrect password !' });
+        }
+        return res.status(200).json({
+            userId: user._id,
+            token: jwt.sign(
+                { userId: user._id },
+                process.env.TOKEN_KEY,
+                { expiresIn: '24h' }
+            )
+        });
+    } catch(e) {
+        console.error(e)
+        return res.status(500).json({ message : "Internal error" })
+    }
 }
