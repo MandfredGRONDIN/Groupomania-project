@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose")
 const userRoutes = require("./routes/user")
+const postRoutes = require("./routes/post")
 const path = require('path')
 require("dotenv").config({path: "./config/.env"});
 require("./config/db")
@@ -22,6 +23,9 @@ app.use(express.json());
 
 // Routes Authentification
 app.use("/api/auth", userRoutes);
+
+// Routes post
+app.use("/api/posts", postRoutes)
 
 
 module.exports = app;
