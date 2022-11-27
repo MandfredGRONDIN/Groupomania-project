@@ -27,5 +27,8 @@ app.use("/api/auth", userRoutes);
 // Routes post
 app.use("/api/posts", postRoutes)
 
+// Routes des static (images)
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
 
 module.exports = app;

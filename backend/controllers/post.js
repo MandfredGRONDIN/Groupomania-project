@@ -3,9 +3,19 @@ const fs = require('fs').promises;
 
 exports.createPost = async (req, res) => {
     try{
-
+        const post = new Post({
+            description: req.body.description,
+            userId: req.auth.userId,
+            /* imageUrl: `${req.protocol}://${req.get("host")}/images/${
+                req.file.filename
+            }` */
+        })
+        console.log(post)
+        await post.save();
+        return res.status(201).json({message: "Post recorded"})
     } catch (e) {
-
+        console.error(e);
+        return res.status(500).json({ message: "Internal error" });
     }
 }
 
