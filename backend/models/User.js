@@ -9,6 +9,7 @@ const userSchema = mongoose.Schema({
     picture: {type: String, default:""}
     },{
     timestamps: true,
+    isadmin:{type: Boolean}
 })
 
 userSchema.plugin(uniqueValidator)

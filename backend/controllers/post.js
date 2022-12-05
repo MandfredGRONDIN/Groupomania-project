@@ -3,8 +3,11 @@ const fs = require('fs').promises;
 
 exports.createPost = async (req, res) => {
     try{
+        const postObject = JSON.parse(JSON.stringify(req.body.post));
+        delete postObject._id;
+        delete postObject.userId;
         const post = new Post({
-            description: req.body.description,
+            ...postObject,
             userId: req.auth.userId,
             /* imageUrl: `${req.protocol}://${req.get("host")}/images/${
                 req.file.filename
