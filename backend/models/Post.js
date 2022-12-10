@@ -6,10 +6,8 @@ const postSchema = mongoose.Schema({
     imageUrl: { type: String},
     comment: {type: [String]},
     likes: { type: Number, default: 0 },
-    dislikes: { type: Number, default: 0 },
     // type: [String] pour créer un tableau comprenant du String
-    usersLiked: { type: [String], required: false },
-    usersDisliked: { type: [String], required: false }
+    usersLiked: { type: [String], required: false }
 })
 
 module.exports = mongoose.model('Post', postSchema)
