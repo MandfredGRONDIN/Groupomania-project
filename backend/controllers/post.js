@@ -107,24 +107,17 @@ exports.getAllPost = async (req, res) => {
 exports.likePost = async (req, res) => {
     try{
         let aggregate = null;
-        switch(req.body.like){
-            case 0:
-                // Pour retirer le like
-                let post = await Post.findOne({ _id: req.params.id})
-                if(post.usersLiked.find((user) => user === req.body.userId)){
-                    aggregate = {
-                        $inc: {likes: -1},
-                        $pull: {usersLiked: req.body.userId}
-                    }
-                }
-                break;
-            case 1:
-                // Pour rajouter le like
-                aggregate= {
-                    $inc: {likes: 1},
-                    $push: {usersLiked: req.body.userId}
-                }
-                break;  
+        let post = await Post.findOne({ _id: req.params.id})
+        if(post.usersLiked.find((user) => user === req.body.userId)){
+            aggregate = {
+                $inc: {likes: -1},
+                $pull: {usersLiked: req.body.userId}
+            }
+        } else {
+            aggregate= {
+                $inc: {likes: 1},
+                $push: {usersLiked: req.body.userId}
+            }
         }
         if(aggregate){
             await Post.updateOne({ _id: req.params.id}, aggregate)
