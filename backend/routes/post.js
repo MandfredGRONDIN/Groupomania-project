@@ -3,6 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 const postCtrl = require('../controllers/post');
+const commentCtrl = require("../controllers/comments");
 
 router.post("/", auth, multer, postCtrl.createPost)
 
@@ -16,5 +17,11 @@ router.get("/", auth, postCtrl.getAllPost);
 
 router.post("/:id/like", auth, postCtrl.likePost);
 
+// Comment
+router.patch("/comment-post/:id", auth, commentCtrl.createComment)
+
+router.patch("/edit-comment/:id", auth, commentCtrl.modifyComment)
+
+router.patch("/delete-comment-post/:id", auth, commentCtrl.deleteComment)
 
 module.exports = router
