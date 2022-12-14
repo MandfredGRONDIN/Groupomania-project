@@ -24,4 +24,6 @@ router.patch("/edit-comment/:id", auth, commentCtrl.modifyComment)
 
 router.patch("/delete-comment-post/:id", auth, commentCtrl.deleteComment)
 
+/* router.patch("/:id/like-comment", auth, commentCtrl.likeComment) */
+
 module.exports = router

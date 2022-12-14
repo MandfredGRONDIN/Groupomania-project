@@ -5,7 +5,8 @@ const multer = require('multer');
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
-    'image/png': 'png'
+    'image/png': 'png',
+    'image/gif': 'gif'
 }
 
 // Configuration du multer pour la modif du fichier image, puis la destination
@@ -34,7 +35,7 @@ const upload = multer({
     fileFilter:(req, file, callback) => {
         if(!MIME_TYPES[file.mimetype]){
             callback(null, false)
-            return callback(new Error('Only jpg, jpeg and png formats are allowed'))
+            return callback(new Error('Only jpg, jpeg, png and gif formats are allowed for now'))
         } else {
             callback(null, true)
         }

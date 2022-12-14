@@ -10,6 +10,8 @@ const postSchema = mongoose.Schema({
             commenterPseudo: String,
             text: String,
             timestamp: Number,
+            /* likes:Number,
+            commentLiked:[String] */
         }
     ], required: true},
     likes: { type: Number, default: 0 },
