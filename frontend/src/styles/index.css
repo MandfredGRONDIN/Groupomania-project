@@ -1,0 +1,103 @@
+body{
+    margin: 0;
+}
+
+/* ---------- Login ------------ */
+.login{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.login__header{
+    position: relative;
+    height: 98px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 30px 0 15px 0;
+    border-radius: 35px;
+    background-color: #4E5166;
+    text-align: center;
+}
+.login__header-logo{
+    width: 200px;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+.login__body{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+    max-width: 1200px;
+    margin: 30px 0 15px 0;
+    border-radius: 35px;
+    background-color: #4E5166;
+    text-align: center;
+}
+.login__body-log{
+    width: 85%;
+    margin: 5% 0 5% 0;
+    background: #FD2D01;
+    border-radius: 35px;
+    overflow: hidden;
+}
+.login__body-button{
+    height: 20%;
+}
+.login__button{
+    width: 50%;
+    height: 100%;
+    font-size: 23px;
+    border: none;
+    background-color: #FFD7D7;
+    color: #FD2D01;
+    box-shadow: inset 0px -10px 20px rgb(0 0 0 / 30%);
+}
+.login__button.actived{
+    background-color: #FD2D01;
+    color: #FFD7D7;
+    box-shadow: inset 0px -10px 20px rgb(0 0 0 / 8%);
+}
+.login__body-form{
+    display: flex;
+    justify-content: center;
+    height: 80%;
+    width: 100%;
+    padding-top: 40px;
+}
+.login__body-register{
+    width: 85%;
+    margin: 5% 0 5% 0;
+    background: #FD2D01;
+    border-radius: 35px;
+    overflow: hidden;
+}
+#sign__up-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+}
+#register-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+}
+#pseudo,#email,#password__check,#password{
+    background-color: #FFD7D7;
+    color: #FD2D01;
+    font-size: 20px;
+    border: none;
+}
+#login__submit,#register__submit{
+    background-color: #FFD7D7;
+    color: #FD2D01;
+    font-size: 20px;
+    border: none;
+    border-radius: 20px;
+    height: 50px;
+}

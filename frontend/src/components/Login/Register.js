@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-   const [pseudo, setPseudo] = useState("");
-   const [email, setEmail] = useState("");
-   const [password, setPassword] = useState("");
-   const [passwordCheck, setPasswordCheck] = useState("");
+   const [pseudo, setPseudo] = useState("Username");
+   const [email, setEmail] = useState("Email");
+   const [password, setPassword] = useState("Password");
+   const [passwordCheck, setPasswordCheck] = useState("Confirm Password");
+   const [showInput, setShowInput] = useState(true);
    const navigate = useNavigate();
    const emailError = document.querySelector(".email.error");
    const passwordError = document.querySelector(".password.error");
@@ -69,45 +70,61 @@ export default function Register() {
    };
 
    return (
-      <div>
+      <div className="login__body-form">
          <form action="" onSubmit={handleLogin} id="register-form">
-            <label htmlFor="pseudo">Pseudo</label>
-            <input
-               type="text"
-               name="pseudo"
-               id="pseudo"
-               onChange={(e) => setPseudo(e.target.value)}
-               value={pseudo}
-            />
+            <label htmlFor="pseudo"></label>
+            <div>
+               <i className="fa-solid fa-user"></i>
+               <input
+                  type="text"
+                  name="pseudo"
+                  id="pseudo"
+                  onChange={(e) => setPseudo(e.target.value)}
+                  value={pseudo}
+               />
+            </div>
             <div className="pseudo error"></div>
-            <label htmlFor="email">Email</label>
-            <input
-               type="text"
-               name="email"
-               id="email"
-               onChange={(e) => setEmail(e.target.value)}
-               value={email}
-            />
+            <label htmlFor="email"></label>
+            <div>
+               <i className="fa-solid fa-envelope"></i>
+               <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+               />
+            </div>
             <div className="email error"></div>
-            <label htmlFor="password">Password</label>
-            <input
-               type="text"
-               name="password"
-               id="password"
-               onChange={(e) => setPassword(e.target.value)}
-               value={password}
-            />
+            <label htmlFor="password"></label>
+            <div>
+               <i className="fa-solid fa-lock"></i>
+               <input
+                  type={showInput ? "text" : "password"}
+                  name="password"
+                  id="password"
+                  onChange={(e) =>
+                     setPassword(e.target.value) || setShowInput(false)
+                  }
+                  value={password}
+               />
+            </div>
             <div className="password error"></div>
-            <label htmlFor="passwordCheck">Confirm Password</label>
-            <input
-               type="text"
-               name="passwordCheck"
-               id="password__check"
-               onChange={(e) => setPasswordCheck(e.target.value)}
-               value={passwordCheck}
-            />
+            <label htmlFor="passwordCheck"></label>
+            <div>
+               <i className="fa-solid fa-lock"></i>
+               <input
+                  type={showInput ? "text" : "password"}
+                  name="passwordCheck"
+                  id="password__check"
+                  onChange={(e) =>
+                     setPasswordCheck(e.target.value) || setShowInput(false)
+                  }
+                  value={passwordCheck}
+               />
+            </div>
             <div className="password_check error"></div>
-            <input type="submit" value="Se connecter" />
+            <input id="register__submit" type="submit" value="Register" />
          </form>
       </div>
    );
