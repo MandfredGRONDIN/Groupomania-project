@@ -41,24 +41,26 @@ export default function Log() {
       <div className="login__body-form">
          <form action="" onSubmit={handleLogin} id="sign__up-form">
             <label htmlFor="email"></label>
-            <div className="">
-               <i className="fa-solid fa-user"></i>
+            <div className="form__input">
+               <i className="fa-solid fa-user icone"></i>
                <input
                   type="text"
                   name="email"
                   id="email"
+                  onClick={(e) => {if(e.target.value === "Email"){e.target.value = ""}}}
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                />
             </div>
             <div className="email error"></div>
             <label htmlFor="password"></label>
-            <div>
-               <i className="fa-solid fa-lock"></i>
+            <div className="form__input">
+               <i className="fa-solid fa-lock icone"></i>
                <input
                   type={showInput ? "text" : "password"}
                   name="password"
                   id="password"
+                  onClick={(e) => {if(e.target.value === "Password"){e.target.value = ""}}}
                   onChange={(e) =>
                      setPassword(e.target.value) || setShowInput(false)
                   }

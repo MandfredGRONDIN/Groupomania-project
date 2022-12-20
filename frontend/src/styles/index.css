@@ -1,5 +1,6 @@
 body{
     margin: 0;
+    background-color: #FFD7D7;
 }
 
 /* ---------- Login ------------ */
@@ -30,7 +31,7 @@ body{
     justify-content: center;
     position: relative;
     width: 100%;
-    min-height: 500px;
+    min-height: 600px;
     max-width: 1200px;
     margin: 30px 0 15px 0;
     border-radius: 35px;
@@ -55,11 +56,13 @@ body{
     background-color: #FFD7D7;
     color: #FD2D01;
     box-shadow: inset 0px -10px 20px rgb(0 0 0 / 30%);
+    cursor: pointer;
 }
 .login__button.actived{
     background-color: #FD2D01;
     color: #FFD7D7;
     box-shadow: inset 0px -10px 20px rgb(0 0 0 / 8%);
+    cursor: default;
 }
 .login__body-form{
     display: flex;
@@ -80,18 +83,23 @@ body{
     flex-direction: column;
     justify-content: space-around;
     height: 80%;
+    width: 50%;
 }
 #register-form{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     height: 80%;
+    width: 50%;
 }
 #pseudo,#email,#password__check,#password{
     background-color: #FFD7D7;
     color: #FD2D01;
     font-size: 20px;
     border: none;
+    width: 100%;
+    padding: 10px 0 10px 35px;
+    outline: none;
 }
 #login__submit,#register__submit{
     background-color: #FFD7D7;
@@ -100,4 +108,23 @@ body{
     border: none;
     border-radius: 20px;
     height: 50px;
+    cursor: pointer;
+}
+.form__input{
+    display: flex;
+    position: relative;
+}
+.icone{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    width: 35px;
+    font-size: 16px;
+    color: #FD2D01;
+}
+.error{
+    color: #FFD7D7;
+    font-size: 20px;
 }
