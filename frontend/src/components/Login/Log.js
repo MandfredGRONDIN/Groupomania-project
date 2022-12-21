@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function Log() {
    const [email, setEmail] = useState("Email");
+   const [emailError, setEmailError] = useState("")
    const [password, setPassword] = useState("Password");
+   const [passwordError, setPasswordError] = useState("")
    const [showInput, setShowInput] = useState(true);
    const navigate = useNavigate();
-   const emailError = document.querySelector(".email.error");
-   const passwordError = document.querySelector(".password.error");
 
    const handleLogin = async (e) => {
       e.preventDefault();
@@ -24,16 +24,17 @@ export default function Log() {
          }
       );
       result = await result.json();
+      console.log(result);
       if (result.errorEmail) {
-         passwordError.innerHTML = "";
-         emailError.innerHTML = "email incorrect";
+         setPasswordError("")
+         setEmailError("email incorrect")
       } else if (result.errorPassword) {
-         emailError.innerHTML = "";
-         passwordError.innerHTML = "Mot de passe incorrect";
+         setPasswordError("Mot de passe incorrect")
+         setEmailError("")
       } else {
-         emailError.innerHTML = "";
-         passwordError.innerHTML = "";
-         navigate("/home");
+         setPasswordError("")
+         setEmailError("")
+         navigate(`/home/${result.userId}`);
       }
    };
 
@@ -52,7 +53,7 @@ export default function Log() {
                   value={email}
                />
             </div>
-            <div className="email error"></div>
+            {emailError && <div className="email error">{emailError}</div>}
             <label htmlFor="password"></label>
             <div className="form__input">
                <i className="fa-solid fa-lock icone"></i>
@@ -67,7 +68,7 @@ export default function Log() {
                   value={password}
                />
             </div>
-            <div className="password error"></div>
+            {passwordError && <div className="password error">{passwordError}</div>}
             <input id="login__submit" type="submit" value="Login" />
          </form>
       </div>

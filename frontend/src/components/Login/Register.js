@@ -3,16 +3,17 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
    const [pseudo, setPseudo] = useState("Username");
+   const [pseudoError, setPseudoError] = useState("")
    const [email, setEmail] = useState("Email");
+   const [emailError, setEmailError] = useState("")
    const [password, setPassword] = useState("Password");
+   const [passwordError, setPasswordError] = useState("")
    const [passwordCheck, setPasswordCheck] = useState("Confirm Password");
+   const [passwordCheckError, setPasswordCheckError] = useState("")
    const [showInput, setShowInput] = useState(true);
    const [showInputCheck, setShowInputCheck] = useState(true);
    const navigate = useNavigate();
-   const emailError = document.querySelector(".email.error");
-   const passwordError = document.querySelector(".password.error");
-   const passwordCheckError = document.querySelector(".password_check.error");
-   const pseudoError = document.querySelector(".pseudo.error");
+
 
    const handleLogin = async (e) => {
       e.preventDefault();
@@ -31,42 +32,29 @@ export default function Register() {
       );
       result = await result.json();
       console.log(result);
-
-      let errorEmail = () => {
-         if (result.errorEmail) {
-            emailError.innerHTML = result.errorEmail;
-         } else {
-            emailError.innerHTML = "";
-         }
-      };
-      let errorEmail_valid = errorEmail();
       
-      let errorPseudo = () => {
-         if (result.errorPseudo) {
-            pseudoError.innerHTML = result.errorPseudo;
-         } else {
-            pseudoError.innerHTML = "";
-         }
-      };
-      let errorPseudo_valid = errorPseudo();
-      
-      let passwordChecked = () => {
-         if (result.errorPasswordCheck) {
-            passwordError.innerHTML = result.errorPasswordCheck;
-            passwordCheckError.innerHTML = result.errorPasswordCheck;
-         } else {
-            passwordError.innerHTML = "";
-            passwordCheckError.innerHTML = "";
-         }
-      };
-      let passwordCheck_valid = passwordChecked();
+      if (result.errorEmail) {
+         setEmailError(`${result.errorEmail}`)
+      } else {
+         setEmailError("")
+      }
+   
+      if (result.errorPseudo) {
+         setPseudoError(`${result.errorPseudo}`)
+      } else {
+         setPseudoError("")
+      }
 
-      if (errorPseudo_valid || passwordCheck_valid || errorEmail_valid) {
-         return null;
+      if (result.errorPasswordCheck) {
+         setPasswordError(`${result.errorPasswordCheck}`)
+         setPasswordCheckError(`${result.errorPasswordCheck}`)
+      } else {
+         setPasswordError("")
+         setPasswordCheckError("")
       }
 
       if (result.userCreated) {
-         navigate("/home");
+         navigate(`/home`);
       }
    };
 
@@ -85,7 +73,7 @@ export default function Register() {
                   value={pseudo}
                />
             </div>
-            <div className="pseudo error"></div>
+            <div className="pseudo error">{pseudoError}</div>
             <label htmlFor="email"></label>
             <div className="form__input">
                <i className="fa-solid fa-envelope icone"></i>
@@ -98,7 +86,7 @@ export default function Register() {
                   value={email}
                />
             </div>
-            <div className="email error"></div>
+            <div className="email error">{emailError}</div>
             <label htmlFor="password"></label>
             <div className="form__input">
                <i className="fa-solid fa-lock icone"></i>
@@ -113,7 +101,7 @@ export default function Register() {
                   value={password}
                />
             </div>
-            <div className="password error"></div>
+            <div className="password error">{passwordError}</div>
             <label htmlFor="passwordCheck"></label>
             <div className="form__input">
                <i className="fa-solid fa-lock icone"></i>
@@ -128,7 +116,7 @@ export default function Register() {
                   value={passwordCheck}
                />
             </div>
-            <div className="password_check error"></div>
+            <div className="password_check error">{passwordCheckError}</div>
             <input id="register__submit" type="submit" value="Register" />
          </form>
       </div>

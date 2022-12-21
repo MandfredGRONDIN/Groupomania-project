@@ -11,7 +11,7 @@ function Routing() {
       <div className="App">
          <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/home" element={<Home />} />
+            <Route path="/home/:id" element={<Home />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/messenger/:id" element={<Messenger />} />
             <Route path="/*" element={<Error />} />
