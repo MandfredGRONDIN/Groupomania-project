@@ -16,7 +16,16 @@ exports.signup = async (req, res) => {
             return res.status(400).json({errorPasswordCheck : 'Different passwords'})
         }
         await user.save()
-        return res.status(201).json({userCreated: 'User created !'})
+        return res.status(201).json(
+            {
+            userCreated: 'User created !',
+            userId: user._id,
+            token: jwt.sign(
+                { userId: user._id },
+                process.env.TOKEN_KEY,
+                { expiresIn: '24h' }
+            )
+        })
     } catch(e) {
         console.error(e)
         if(e.errors && e.errors.email && e.errors.email.kind === 'unique'){ 

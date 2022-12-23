@@ -3,17 +3,16 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
    const [pseudo, setPseudo] = useState("Username");
-   const [pseudoError, setPseudoError] = useState("")
+   const [pseudoError, setPseudoError] = useState("");
    const [email, setEmail] = useState("Email");
-   const [emailError, setEmailError] = useState("")
+   const [emailError, setEmailError] = useState("");
    const [password, setPassword] = useState("Password");
-   const [passwordError, setPasswordError] = useState("")
+   const [passwordError, setPasswordError] = useState("");
    const [passwordCheck, setPasswordCheck] = useState("Confirm Password");
-   const [passwordCheckError, setPasswordCheckError] = useState("")
+   const [passwordCheckError, setPasswordCheckError] = useState("");
    const [showInput, setShowInput] = useState(true);
    const [showInputCheck, setShowInputCheck] = useState(true);
    const navigate = useNavigate();
-
 
    const handleLogin = async (e) => {
       e.preventDefault();
@@ -32,28 +31,28 @@ export default function Register() {
       );
       result = await result.json();
       console.log(result);
-      
+
       if (result.errorEmail) {
-         setEmailError(`${result.errorEmail}`)
+         setEmailError(`${result.errorEmail}`);
       } else {
-         setEmailError("")
+         setEmailError("");
       }
-   
+
       if (result.errorPseudo) {
-         setPseudoError(`${result.errorPseudo}`)
+         setPseudoError(`${result.errorPseudo}`);
       } else {
-         setPseudoError("")
+         setPseudoError("");
       }
 
       if (result.errorPasswordCheck) {
-         setPasswordError(`${result.errorPasswordCheck}`)
-         setPasswordCheckError(`${result.errorPasswordCheck}`)
+         setPasswordError(`${result.errorPasswordCheck}`);
+         setPasswordCheckError(`${result.errorPasswordCheck}`);
       } else {
-         setPasswordError("")
-         setPasswordCheckError("")
+         setPasswordError("");
+         setPasswordCheckError("");
       }
-
       if (result.userCreated) {
+         localStorage.setItem("userId", result.userId);
          navigate(`/home`);
       }
    };
@@ -68,7 +67,11 @@ export default function Register() {
                   type="text"
                   name="pseudo"
                   id="pseudo"
-                  onClick={(e) => {if(e.target.value === "Username"){e.target.value = ""}}}
+                  onClick={(e) => {
+                     if (e.target.value === "Username") {
+                        e.target.value = "";
+                     }
+                  }}
                   onChange={(e) => setPseudo(e.target.value)}
                   value={pseudo}
                />
@@ -81,7 +84,11 @@ export default function Register() {
                   type="text"
                   name="email"
                   id="email"
-                  onClick={(e) => {if(e.target.value === "Email"){e.target.value = ""}}}
+                  onClick={(e) => {
+                     if (e.target.value === "Email") {
+                        e.target.value = "";
+                     }
+                  }}
                   onChange={(e) => setEmail(e.target.value)}
                   value={email}
                />
@@ -94,7 +101,11 @@ export default function Register() {
                   type={showInput ? "text" : "password"}
                   name="password"
                   id="password"
-                  onClick={(e) => {if(e.target.value === "Password"){e.target.value = ""}}}
+                  onClick={(e) => {
+                     if (e.target.value === "Password") {
+                        e.target.value = "";
+                     }
+                  }}
                   onChange={(e) =>
                      setPassword(e.target.value) || setShowInput(false)
                   }
@@ -109,9 +120,14 @@ export default function Register() {
                   type={showInputCheck ? "text" : "password"}
                   name="passwordCheck"
                   id="password__check"
-                  onClick={(e) => {if(e.target.value === "Confirm Password"){e.target.value = ""}}}
+                  onClick={(e) => {
+                     if (e.target.value === "Confirm Password") {
+                        e.target.value = "";
+                     }
+                  }}
                   onChange={(e) =>
-                     setPasswordCheck(e.target.value) || setShowInputCheck(false)
+                     setPasswordCheck(e.target.value) ||
+                     setShowInputCheck(false)
                   }
                   value={passwordCheck}
                />

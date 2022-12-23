@@ -13,7 +13,7 @@ router.delete("/:id", auth, postCtrl.deletePost);
 
 router.get("/:id", auth, postCtrl.getOnePost);
 
-router.get("/", auth, postCtrl.getAllPost);
+router.get("/", postCtrl.getAllPost);
 
 router.post("/:id/like", auth, postCtrl.likePost);
 
