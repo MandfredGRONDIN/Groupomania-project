@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Post from "../components/Home/Post";
 import "../styles/home.css";
 
 export default function Home() {
@@ -23,13 +24,7 @@ export default function Home() {
       <div id="home">
          {data.map((data, key) => (
             <div key={key} className="home__post">
-               <div>{data.userId}</div>
-               <div>{data.description}</div>
-               {data.imageUrl ? (
-                  <div>
-                     <img src={data.imageUrl} alt="" />
-                  </div>
-               ) : null}
+               <Post data={data} />
             </div>
          ))}
       </div>
