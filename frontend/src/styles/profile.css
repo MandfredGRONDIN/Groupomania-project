@@ -5,17 +5,41 @@
     align-items: center;
     margin-top: 100px;
 }
+#profile__name,#profile__email{
+    width: 300px;
+    margin: 10px 0;
+}
+#profile__name input{
+    width: 97%;
+    padding: 20px 0 20px 15px;
+    font-size: 20px;
+    border-radius: 30px;
+    border: none;
+}
+.email.profile{
+    width: 97%;
+    padding: 20px 0 20px 15px;
+    font-size: 20px;
+    border-radius: 30px;
+    background-color: #D9D9D9;
+    border: none;
+}
 .user__img{
-    width: 200px;
-    height: 200px;
-    
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
     background-color: #D9D9D9;
     position: relative;
     border-radius: 100%;
+    margin-bottom: 50px;
 }
-/* .user__img img{
-    
-} */
+ .user__img img{
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 .user__img i{
     font-size: 125px;
     position: absolute;

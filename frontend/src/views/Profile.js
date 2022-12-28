@@ -8,7 +8,8 @@ export default function Profile() {
    const [name, setName] = useState("");
    const [email, setEmail] = useState("");
    const params = useParams();
-   let test = (email) => {
+
+   let hideEmail = (email) => {
       let index = email.indexOf("@");
       index = index < 0 ? 0 : index;
       return "*".repeat(index) + email.substring(index);
@@ -32,28 +33,31 @@ export default function Profile() {
       }
       fetchData();
    }, [params]);
-   console.log(data);
-   console.log(name);
+
    return (
       <div id="profile">
          <div className="user__img">
             {data.picture ? (
-               <img src={data.picture} alt="" className="user__img-img" />
+               <img
+                  src={`${process.env.REACT_APP_API_URL}images/${data.picture}`}
+                  alt="Profil"
+                  className="user__img-img"
+               />
             ) : (
                <i className="fa-solid fa-user "></i>
             )}
          </div>
-         <div>
+         <div id="profile__name">
             <label htmlFor="name"></label>
             <input type="text" name="name" id="name" value={name} />
          </div>
-         <div>
+         <div id="profile__email">
             <label htmlFor="email"></label>
             <input
                type="email"
                name="email"
-               className="email"
-               value={test(email)}
+               className="email profile"
+               value={hideEmail(email)}
             />
          </div>
       </div>
