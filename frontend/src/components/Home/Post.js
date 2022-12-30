@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Comment from "./Comment";
 
 export default function Post({ data }) {
    const [dataUser, setDataUser] = useState([]);
+   const [isOpen, setIsOpen] = useState(false);
    const userId = data.userId;
+   const comment = data.comments;
 
    useEffect(() => {
       async function fetchData() {
@@ -21,7 +24,6 @@ export default function Post({ data }) {
       fetchData();
    }, [userId, data]);
 
-   console.log(dataUser);
    return (
       <div className="post">
          <div className="post__header">
@@ -47,11 +49,23 @@ export default function Post({ data }) {
          ) : null}
          <div className="post__footer">
             <div className="post__like">
-               <i class="fa-regular fa-heart"></i>
+               <i className="fa-regular fa-heart"></i>
             </div>
-            <div className="post__comment">
-               <i class="fa-regular fa-comment"></i>
+            <div
+               className="post__comment-icone"
+               onClick={() => setIsOpen(!isOpen)}
+            >
+               <i className="fa-regular fa-comment"></i>
             </div>
+         </div>
+         <div className={isOpen ? "post__comment" : null}>
+            {isOpen
+               ? comment.map((comment, key) => (
+                    <div key={key} className="comment">
+                       <Comment commentData={comment} />
+                    </div>
+                 ))
+               : null}
          </div>
       </div>
    );

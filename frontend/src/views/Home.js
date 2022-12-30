@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import CreatePost from "../components/Home/CreatePost";
 import Post from "../components/Home/Post";
 import "../styles/home.css";
 
@@ -22,6 +23,7 @@ export default function Home() {
 
    return (
       <div id="home">
+         <CreatePost />
          {data.map((data, key) => (
             <div key={key} className="home__post">
                <Post data={data} />
