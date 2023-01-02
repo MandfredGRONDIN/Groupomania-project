@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Picture from "../Picture";
 
 export default function Comment({ commentData }) {
    const [dataUser, setDataUser] = useState([]);
@@ -20,28 +21,20 @@ export default function Comment({ commentData }) {
       }
       fetchData();
    }, [userId]);
-   console.log(dataUser);
+   /*  console.log(dataUser);
 
-   console.log(commentData);
+   console.log(commentData); */
    return (
       <div className="comment__post">
          <div className="comment__header">
-            {dataUser.picture ? (
-               <img
-                  src={`${process.env.REACT_APP_API_URL}images/${dataUser.picture}`}
-                  alt="Profil"
-                  className="post__picture"
-               ></img>
-            ) : (
-               <i className="fa-solid fa-user "></i>
-            )}
+            <Picture img={dataUser.picture} />
          </div>
          <div className="comment__middle">
-            <div>
+            <div className="comment__middle-head">
                <div>{dataUser.pseudo}</div>
                <div>1h</div>
             </div>
-            <div>{commentData.text}</div>
+            <div className="comment__middle-body">{commentData.text}</div>
          </div>
          <div className="comment__like">
             <i className="fa-regular fa-heart"></i>

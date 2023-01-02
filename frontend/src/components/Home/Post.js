@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Comment from "./Comment";
+import CreateComment from "./CreateComment";
 
 export default function Post({ data }) {
    const [dataUser, setDataUser] = useState([]);
@@ -23,6 +24,7 @@ export default function Post({ data }) {
       }
       fetchData();
    }, [userId, data]);
+   console.log(dataUser);
 
    return (
       <div className="post">
@@ -66,6 +68,7 @@ export default function Post({ data }) {
                     </div>
                  ))
                : null}
+            {isOpen ? <CreateComment dataComment={data} /> : null}
          </div>
       </div>
    );

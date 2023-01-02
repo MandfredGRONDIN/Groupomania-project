@@ -20,7 +20,7 @@ export default function CreatePost() {
       }
       fetchData();
    }, [userId]);
-   console.log(dataUser);
+   //console.log(dataUser);
 
    return (
       <div className="create__post">
