@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Comment from "./Comment";
+import Picture from "../Picture";
 import CreateComment from "./CreateComment";
 
 export default function Post({ data }) {
    const [dataUser, setDataUser] = useState([]);
    const [isOpen, setIsOpen] = useState(false);
+   const [comments, setComments] = useState(data.comments);
    const userId = data.userId;
-   const comment = data.comments;
 
    useEffect(() => {
       async function fetchData() {
@@ -24,7 +24,11 @@ export default function Post({ data }) {
       }
       fetchData();
    }, [userId, data]);
-   console.log(dataUser);
+
+   const addComment = (newComment) => {
+      console.log(newComment);
+      setComments([...comments, newComment]);
+   };
 
    return (
       <div className="post">
@@ -62,13 +66,33 @@ export default function Post({ data }) {
          </div>
          <div className={isOpen ? "post__comment" : null}>
             {isOpen
-               ? comment.map((comment, key) => (
+               ? comments.map((comment, key) => (
                     <div key={key} className="comment">
-                       <Comment commentData={comment} />
+                       {/* <Comment commentData={comment} /> */}
+
+                       <div className="comment__post">
+                          <div className="comment__header">
+                             <Picture img={dataUser.picture} />
+                          </div>
+                          <div className="comment__middle">
+                             <div className="comment__middle-head">
+                                <div>{comment.commenterPseudo}</div>
+                                <div>1h</div>
+                             </div>
+                             <div className="comment__middle-body">
+                                {comment.text}
+                             </div>
+                          </div>
+                          <div className="comment__like">
+                             <i className="fa-regular fa-heart"></i>
+                          </div>
+                       </div>
                     </div>
                  ))
                : null}
-            {isOpen ? <CreateComment dataComment={data} /> : null}
+            {isOpen ? (
+               <CreateComment dataComment={data} addComment={addComment} />
+            ) : null}
          </div>
       </div>
    );

@@ -2,13 +2,16 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Picture from "../Picture";
 
-export default function CreateComment({ dataComment }) {
+export default function CreateComment({ dataComment, addComment }) {
    const [data, setData] = useState([]);
    const [text, setText] = useState("");
    const [commenterPseudo, setCommenterPseudo] = useState("");
    const commentId = dataComment._id;
    const userId = localStorage.getItem("userId");
+
    console.log(dataComment);
+   console.log(addComment);
+
    useEffect(() => {
       async function fetchData() {
          const response = fetch(
@@ -46,6 +49,10 @@ export default function CreateComment({ dataComment }) {
       console.log(result);
 
       result = await result.json();
+      if (result.message === "Comment added") {
+         setText("");
+         addComment(item);
+      }
 
       console.log(result);
    };
