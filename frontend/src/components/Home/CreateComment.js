@@ -4,18 +4,15 @@ import Picture from "../Picture";
 
 export default function CreateComment({ dataComment, addComment }) {
    const [data, setData] = useState([]);
-   const [text, setText] = useState("");
+   const [text, setText] = useState("Ecrivez un commentaire");
    const [commenterPseudo, setCommenterPseudo] = useState("");
-   const commentId = dataComment._id;
-   const userId = localStorage.getItem("userId");
-
-   console.log(dataComment);
-   console.log(addComment);
+   const postId = dataComment._id;
+   const commenterId = localStorage.getItem("userId");
 
    useEffect(() => {
       async function fetchData() {
          const response = fetch(
-            `${process.env.REACT_APP_API_URL}api/auth/${userId}`,
+            `${process.env.REACT_APP_API_URL}api/auth/${commenterId}`,
             {
                method: "GET",
                headers: {
@@ -28,15 +25,13 @@ export default function CreateComment({ dataComment, addComment }) {
          setCommenterPseudo(data.pseudo);
       }
       fetchData();
-   }, [userId]);
-   console.log(data);
+   }, [commenterId]);
 
    const handleComment = async (e) => {
       e.preventDefault();
-      let item = { userId, commenterPseudo, text };
-      console.log(item);
+      let item = { userId: commenterId, commenterPseudo, text };
       let result = await fetch(
-         `${process.env.REACT_APP_API_URL}api/posts/comment-post/${commentId}`,
+         `${process.env.REACT_APP_API_URL}api/posts/${postId}/comment-post/`,
          {
             method: "PATCH",
             headers: {
@@ -46,31 +41,42 @@ export default function CreateComment({ dataComment, addComment }) {
             body: JSON.stringify(item),
          }
       );
-      console.log(result);
 
       result = await result.json();
       if (result.message === "Comment added") {
          setText("");
          addComment(item);
       }
-
-      console.log(result);
    };
 
    return (
       <div>
          <div className="create__comment-picture">
             <Picture img={data.picture} />
-            <div>
+            <div className="create__comment-body">
                <form action="" onSubmit={handleComment} id="post__comment-form">
                   <input
                      type="text"
                      name="text"
                      id="text"
+                     onClick={(e) => {
+                        if (e.target.value === "Ecrivez un commentaire") {
+                           e.target.value = "";
+                        }
+                     }}
                      onChange={(e) => setText(e.target.value)}
                      value={text}
                   />
-                  <input id="comment__submit" type="submit" value="test" />
+                  <input
+                     id="comment__submit"
+                     type="submit"
+                     value="submit"
+                     style={{ display: "none" }}
+                  />
+                  <i
+                     className="fa-solid fa-paper-plane submit__plane"
+                     onClick={handleComment}
+                  ></i>
                </form>
             </div>
          </div>

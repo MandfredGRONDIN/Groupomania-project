@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Picture from "../Picture";
+import Comment from "./Comment";
 import CreateComment from "./CreateComment";
 
 export default function Post({ data }) {
@@ -26,7 +26,6 @@ export default function Post({ data }) {
    }, [userId, data]);
 
    const addComment = (newComment) => {
-      console.log(newComment);
       setComments([...comments, newComment]);
    };
 
@@ -68,25 +67,7 @@ export default function Post({ data }) {
             {isOpen
                ? comments.map((comment, key) => (
                     <div key={key} className="comment">
-                       {/* <Comment commentData={comment} /> */}
-
-                       <div className="comment__post">
-                          <div className="comment__header">
-                             <Picture img={dataUser.picture} />
-                          </div>
-                          <div className="comment__middle">
-                             <div className="comment__middle-head">
-                                <div>{comment.commenterPseudo}</div>
-                                <div>1h</div>
-                             </div>
-                             <div className="comment__middle-body">
-                                {comment.text}
-                             </div>
-                          </div>
-                          <div className="comment__like">
-                             <i className="fa-regular fa-heart"></i>
-                          </div>
-                       </div>
+                       <Comment commentData={comment} />
                     </div>
                  ))
                : null}

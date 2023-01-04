@@ -18,7 +18,7 @@ router.get("/", postCtrl.getAllPost);
 router.post("/:id/like", auth, postCtrl.likePost);
 
 // Comment
-router.patch("/comment-post/:id", /* auth, */ commentCtrl.createComment);
+router.patch("/:id/comment-post/", /* auth, */ commentCtrl.createComment);
 
 router.patch("/edit-comment/:id", auth, commentCtrl.modifyComment);
 

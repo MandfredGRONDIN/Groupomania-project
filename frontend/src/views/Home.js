@@ -19,7 +19,6 @@ export default function Home() {
       }
       fetchData();
    }, []);
-   console.log(data);
 
    return (
       <div id="home">

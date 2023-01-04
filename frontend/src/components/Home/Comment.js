@@ -3,7 +3,7 @@ import Picture from "../Picture";
 
 export default function Comment({ commentData }) {
    const [dataUser, setDataUser] = useState([]);
-   const userId = commentData.commenterId;
+   const userId = commentData.commenterId || commentData.userId;
 
    useEffect(() => {
       async function fetchData() {
@@ -21,9 +21,7 @@ export default function Comment({ commentData }) {
       }
       fetchData();
    }, [userId]);
-   /*  console.log(dataUser);
 
-   console.log(commentData); */
    return (
       <div className="comment__post">
          <div className="comment__header">
