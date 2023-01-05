@@ -3,17 +3,19 @@ const fs = require("fs").promises;
 
 exports.createPost = async (req, res) => {
    try {
+      console.log(JSON.stringify(req.body.post));
       const postObject = req.file
          ? {
-              ...JSON.parse(req.body.post),
+              ...JSON.parse(JSON.stringify(req.body.post)),
               imageUrl: `${req.protocol}://${req.get("host")}/images/${
                  req.file.filename
               }`,
            }
          : {
-              ...JSON.parse(req.body.post),
+              ...JSON.parse(JSON.stringify(req.body.post)),
               imageUrl: ``,
            };
+      console.log(postObject);
       delete postObject._id;
       delete postObject.userId;
       const post = new Post({

@@ -34,6 +34,7 @@ export default function Log() {
          setEmailError("");
       } else {
          localStorage.setItem("userId", result.userId);
+         localStorage.setItem("token", result.token);
          setPasswordError("");
          setEmailError("");
          navigate(`/home`);

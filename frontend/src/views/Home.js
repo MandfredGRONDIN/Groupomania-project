@@ -20,9 +20,13 @@ export default function Home() {
       fetchData();
    }, []);
 
+   const addPost = (newPost) => {
+      setData([...data, newPost]);
+   };
+
    return (
       <div id="home">
-         <CreatePost />
+         <CreatePost addPost={addPost} />
          {data.map((data, key) => (
             <div key={key} className="home__post">
                <Post data={data} />
