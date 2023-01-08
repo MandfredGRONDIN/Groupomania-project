@@ -3,28 +3,25 @@ const fs = require("fs").promises;
 
 exports.createPost = async (req, res) => {
    try {
-      console.log(JSON.stringify(req.body.post));
-      const postObject = req.file
-         ? {
-              ...JSON.parse(JSON.stringify(req.body.post)),
-              imageUrl: `${req.protocol}://${req.get("host")}/images/${
-                 req.file.filename
-              }`,
-           }
-         : {
-              ...JSON.parse(JSON.stringify(req.body.post)),
-              imageUrl: ``,
-           };
-      console.log(postObject);
-      delete postObject._id;
-      delete postObject.userId;
+      const { description, userId } = req.body;
+      const imageUrl = req.file
+         ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+         : ``;
+
+      const postObject = {
+         description,
+         userId,
+         imageUrl,
+      };
+
       const post = new Post({
          ...postObject,
          userId: req.auth.userId,
       });
       console.log(post);
+      const postImg = post.imageUrl;
       await post.save();
-      return res.status(201).json({ message: "Post recorded" });
+      return res.status(201).json({ message: "Post recorded", postImg });
    } catch (e) {
       console.error(e);
       return res.status(500).json({ message: "Internal error" });
@@ -35,13 +32,13 @@ exports.modifyPost = async (req, res) => {
    try {
       const postObject = req.file
          ? {
-              ...JSON.parse(req.body.post),
+              description: req.body.post.description,
               imageUrl: `${req.protocol}://${req.get("host")}/images/${
                  req.file.filename
               }`,
            }
          : {
-              ...JSON.parse(req.body.post),
+              description: req.body.post.description,
               imageUrl: ``,
            };
       delete postObject.userId;

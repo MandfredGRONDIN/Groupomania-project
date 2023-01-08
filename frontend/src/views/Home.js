@@ -21,9 +21,10 @@ export default function Home() {
    }, []);
 
    const addPost = (newPost) => {
+      console.log(newPost);
       setData([...data, newPost]);
    };
-
+   console.log(addPost);
    return (
       <div id="home">
          <CreatePost addPost={addPost} />

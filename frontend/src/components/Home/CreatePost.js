@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Picture from "../Picture";
+import axios from "axios";
 
 export default function CreatePost({ addPost }) {
-   console.log(addPost);
    const [dataUser, setDataUser] = useState([]);
    const [textPost, setTextPost] = useState(`Quoi de neuf?`);
    const userId = localStorage.getItem("userId");
+   const [file, setFile] = useState();
+   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
 
    useEffect(() => {
       async function fetchData() {
@@ -23,30 +25,51 @@ export default function CreatePost({ addPost }) {
       }
       fetchData();
    }, [userId]);
-   console.log(dataUser);
 
    const handlePost = async (e) => {
       e.preventDefault();
       const token = localStorage.getItem("token");
-      const postObject = {
-         description: textPost,
-         userId: userId,
-      };
-      let result = await fetch(`${process.env.REACT_APP_API_URL}api/posts/`, {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-         },
-         body: JSON.stringify({ post: postObject }),
-      });
-      result = await result.json();
-      console.log(result);
-      if (result.message === "Post recorded") {
-         setTextPost("");
-         addPost(postObject);
+
+      const data = new FormData();
+      data.append("description", textPost);
+      data.append("userId", userId);
+      if (file) {
+         data.append("image", file);
       }
+      try {
+         const result = await axios.post(
+            `${process.env.REACT_APP_API_URL}api/posts/`,
+            data,
+            {
+               headers: {
+                  "Content-Type": "multipart/form-data",
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+               },
+            }
+         );
+         console.log(result);
+         console.log(result.data);
+         if (result.data.message === "Post recorded") {
+            const postObject = {
+               description: textPost,
+               userId: userId,
+               imageUrl: result.data.postImg,
+            };
+            setTextPost("Quoi de neuf?");
+            setFile("");
+            setImagePreviewUrl("");
+            addPost(postObject);
+         }
+      } catch (error) {
+         console.error(error);
+      }
+   };
+
+   const handleFileChange = (e) => {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      setImagePreviewUrl(URL.createObjectURL(selectedFile));
    };
 
    return (
@@ -74,11 +97,32 @@ export default function CreatePost({ addPost }) {
                   value="submit"
                   style={{ display: "none" }}
                />
+               <div className="button__img">
+                  <label htmlFor="fileInput">
+                     <i className="fa-solid fa-image"></i>
+                  </label>
+                  <input
+                     type="file"
+                     name="image"
+                     onChange={handleFileChange}
+                     style={{ display: "none" }}
+                     id="fileInput"
+                  />
+               </div>
                <i
                   className="fa-solid fa-paper-plane submit__plane"
                   onClick={handlePost}
                ></i>
             </form>
+            <div className="post__preview-img">
+               {imagePreviewUrl && (
+                  <img
+                     src={imagePreviewUrl}
+                     alt="Preview"
+                     className="preview__img"
+                  />
+               )}
+            </div>
          </div>
       </div>
    );
