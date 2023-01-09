@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Picture({ data }) {
+export default function UserPostInformation({ data }) {
    const [dataUser, setDataUser] = useState("");
    const dataId = data;
 
@@ -23,17 +23,7 @@ function Picture({ data }) {
 
    return (
       <>
-         {dataUser.picture ? (
-            <img
-               src={`${process.env.REACT_APP_API_URL}images/${dataUser.picture}`}
-               alt="Profil"
-               className="post__picture"
-            ></img>
-         ) : (
-            <i className="fa-solid fa-user "></i>
-         )}
+         <div className="post__pseudo">{dataUser.pseudo}</div>
       </>
    );
 }
-
-export default Picture;

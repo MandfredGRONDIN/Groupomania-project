@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Picture from "../Picture";
 
 export default function CreateComment({ dataComment, addComment }) {
+   console.log(dataComment);
    const [data, setData] = useState([]);
    const [text, setText] = useState("Ecrivez un commentaire");
    const [commenterPseudo, setCommenterPseudo] = useState("");

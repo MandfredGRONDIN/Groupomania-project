@@ -48,8 +48,6 @@ export default function CreatePost({ addPost }) {
                },
             }
          );
-         console.log(result);
-         console.log(result.data);
          if (result.data.message === "Post recorded") {
             const postObject = {
                description: textPost,

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Picture from "../Picture";
 
 export default function Comment({ commentData }) {
+   console.log(commentData);
    const [dataUser, setDataUser] = useState([]);
    const userId = commentData.commenterId || commentData.userId;
 

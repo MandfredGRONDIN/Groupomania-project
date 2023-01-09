@@ -18,7 +18,6 @@ exports.createPost = async (req, res) => {
          ...postObject,
          userId: req.auth.userId,
       });
-      console.log(post);
       const postImg = post.imageUrl;
       await post.save();
       return res.status(201).json({ message: "Post recorded", postImg });
@@ -30,17 +29,16 @@ exports.createPost = async (req, res) => {
 
 exports.modifyPost = async (req, res) => {
    try {
-      const postObject = req.file
-         ? {
-              description: req.body.post.description,
-              imageUrl: `${req.protocol}://${req.get("host")}/images/${
-                 req.file.filename
-              }`,
-           }
-         : {
-              description: req.body.post.description,
-              imageUrl: ``,
-           };
+      const { description, userId } = req.body;
+      const imageUrl = req.file
+         ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+         : ``;
+
+      const postObject = {
+         description,
+         userId,
+         imageUrl,
+      };
       delete postObject.userId;
       let post = await Post.findOne({ _id: req.params.id });
       if (!post) {
@@ -57,7 +55,14 @@ exports.modifyPost = async (req, res) => {
          { _id: req.params.id },
          { ...postObject, _id: req.params.id }
       );
-      return res.status(201).json({ message: "Post modified" });
+      const id = req.params.id;
+      return res.status(201).json({
+         message: "Post modified",
+         id,
+         imageUrl,
+         description,
+         userId,
+      });
    } catch (e) {
       console.error(e);
       return res.status(500).json({ message: "Internal error" });
