@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import CreateComment from "./CreateComment";
 import Picture from "../Picture";
+import ModifyComment from "./ModifyComment";
 
-export default function Comment({ commentData }) {
-   console.log(commentData);
+export default function CommentTest({ data }) {
+   const [comments, setComments] = useState(data.comments);
    const [dataUser, setDataUser] = useState([]);
-   const userId = commentData.commenterId || commentData.userId;
+   const [isOpen, setIsOpen] = useState(false);
+   const [modifIsOpen, setModifIsOpen] = useState(false);
+   const localStorageUserId = localStorage.getItem("userId");
+   const userId = data.userId;
+   const sortedComment = comments;
 
    useEffect(() => {
       async function fetchData() {
@@ -23,21 +29,73 @@ export default function Comment({ commentData }) {
       fetchData();
    }, [userId]);
 
+   const addComment = (newComment) => {
+      const sortedComment = [...comments, newComment];
+      setComments(sortedComment);
+   };
+
+   const updateData = (newData) => {
+      console.log(newData);
+      const updatedSortedComment = comments.map((comment) => {
+         console.log(comment);
+         if (comment._id === newData.commentId) {
+            return newData;
+         }
+         return comment;
+      });
+      setComments(updatedSortedComment);
+   };
+
    return (
-      <div className="comment__post">
-         <div className="comment__header">
-            <Picture img={dataUser.picture} />
-         </div>
-         <div className="comment__middle">
-            <div className="comment__middle-head">
-               <div>{dataUser.pseudo}</div>
-               <div>1h</div>
+      <div className="post__comment">
+         <div className={isOpen ? "post__footer-active" : "post__footer"}>
+            <div className="post__like">
+               <i className="fa-regular fa-heart"></i>
             </div>
-            <div className="comment__middle-body">{commentData.text}</div>
+            <div
+               className="post__comment-icone"
+               onClick={() => setIsOpen(!isOpen)}
+            >
+               <i className="fa-regular fa-comment"></i>
+            </div>
          </div>
-         <div className="comment__like">
-            <i className="fa-regular fa-heart"></i>
-         </div>
+         {isOpen
+            ? sortedComment.map((comment, key) => (
+                 <div key={key} className="comment">
+                    <div className="comment__post">
+                       <div className="comment__header">
+                          <Picture data={comment.commenterId} />
+                       </div>
+                       <div className="comment__middle">
+                          <div className="comment__middle-head">
+                             <div>{comment.commenterPseudo}</div>
+                             <div>1h</div>
+                          </div>
+
+                          <div className="comment__middle-body">
+                             {comment.text}
+                          </div>
+                       </div>
+                       <div className="comment__like">
+                          <i className="fa-regular fa-heart"></i>
+                       </div>
+                       <div onClick={() => setModifIsOpen(!modifIsOpen)}>
+                          {localStorageUserId === comment.commenterId ? (
+                             <ModifyComment
+                                dataComment={comment}
+                                canModify={true}
+                                dataPost={data}
+                                updateData={updateData}
+                             />
+                          ) : null}
+                       </div>
+                    </div>
+                 </div>
+              ))
+            : null}
+         {isOpen ? (
+            <CreateComment dataComment={data} addComment={addComment} />
+         ) : null}
       </div>
    );
 }

@@ -29,17 +29,6 @@ exports.createPost = async (req, res) => {
 
 exports.modifyPost = async (req, res) => {
    try {
-      const { description, userId } = req.body;
-      const imageUrl = req.file
-         ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-         : ``;
-
-      const postObject = {
-         description,
-         userId,
-         imageUrl,
-      };
-      delete postObject.userId;
       let post = await Post.findOne({ _id: req.params.id });
       if (!post) {
          return res.status(404).json({ message: "Not found" });
@@ -47,10 +36,33 @@ exports.modifyPost = async (req, res) => {
       if (post.userId != req.auth.userId) {
          return res.status(401).json({ message: "Unauthorized" });
       }
-      if (post.imageUrl != "") {
-         const filename = post.imageUrl.split("/images/")[1];
-         await fs.unlink(`images/${filename}`);
+      if (req.file) {
+         if (post.imageUrl != "") {
+            const filename = post.imageUrl.split("/images/")[1];
+            if (filename) {
+               try {
+                  await fs.unlink(`images/${filename}`);
+               } catch (e) {
+                  console.error(e);
+               }
+            }
+         }
+         post.imageUrl = req.file.filename;
+      } else {
+         post.imageUrl = post.imageUrl;
       }
+      const { description, userId } = req.body;
+      const imageUrl = req.file
+         ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+         : post.imageUrl;
+
+      const postObject = {
+         description,
+         userId,
+         imageUrl,
+      };
+      console.log(postObject);
+      delete postObject.userId;
       await Post.updateOne(
          { _id: req.params.id },
          { ...postObject, _id: req.params.id }

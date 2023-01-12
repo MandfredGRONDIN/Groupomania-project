@@ -73,7 +73,7 @@ export default function CreatePost({ addPost }) {
    return (
       <div className="create__post">
          <div className="create__post-header">
-            <Picture img={dataUser.picture} />
+            <Picture data={dataUser._id} />
          </div>
          <div className="create__post-body">
             <form action="" onSubmit={handlePost} id="create__post-form">

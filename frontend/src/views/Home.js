@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import CreatePost from "../components/Home/CreatePost";
 import ModifyPost from "../components/Home/ModifyPost";
-import CreateComment from "../components/Home/CreateComment";
-import Comment from "../components/Home/Comment";
 import "../styles/home.css";
 import Picture from "../components/Picture";
 import UserPostInformation from "../components/UserPostInformation";
+import Comment from "../components/Home/Comment";
 
 export default function Home() {
    const [data, setData] = useState([]);
    const userId = localStorage.getItem("userId");
    const [modifIsOpen, setModifIsOpen] = useState(false);
-   const [isOpen, setIsOpen] = useState(false);
-   const [comments, setComments] = useState(data.comments);
 
    useEffect(() => {
       async function fetchData() {
@@ -31,25 +28,6 @@ export default function Home() {
       fetchData();
    }, []);
 
-   /* useEffect(() => {
-      async function fetchData() {
-         const response = await fetch(
-            `${process.env.REACT_APP_API_URL}api/auth/${userPostId}`,
-            {
-               method: "GET",
-               headers: {
-                  "Content-Type": "application/json",
-               },
-            }
-         );
-         const dataUser = await response.json();
-         console.log(dataUser);
-         setDataUser(dataUser);
-      }
-      fetchData();
-   }, [userPostId, data]);
-   console.log(dataUser); */
-
    const sortedPosts = data.sort((a, b) => {
       const dateA = new Date(a.createdAt);
       const dateB = new Date(b.createdAt);
@@ -57,7 +35,6 @@ export default function Home() {
    });
 
    const addPost = (newPost) => {
-      console.log(newPost);
       const sortedPosts = [newPost, ...data].sort((a, b) => {
          const dateA = new Date(a.createdAt);
          const dateB = new Date(b.createdAt);
@@ -69,16 +46,13 @@ export default function Home() {
    const updateData = (newData) => {
       console.log(newData);
       const updatedSortedPosts = data.map((post) => {
+         console.log(post);
          if (post._id === newData.id) {
             return newData;
          }
          return post;
       });
       setData(updatedSortedPosts);
-   };
-
-   const addComment = (newComment) => {
-      setComments([...comments, newComment]);
    };
 
    return (
@@ -110,31 +84,8 @@ export default function Home() {
                            <img src={data.imageUrl} alt="Post" />
                         </div>
                      ) : null}
-                     <div className="post__footer">
-                        <div className="post__like">
-                           <i className="fa-regular fa-heart"></i>
-                        </div>
-                        <div
-                           className="post__comment-icone"
-                           onClick={() => setIsOpen(!isOpen)}
-                        >
-                           <i className="fa-regular fa-comment"></i>
-                        </div>
-                     </div>
-                     <div className={isOpen ? "post__comment" : null}>
-                        {isOpen
-                           ? data.comments.map((comment, key) => (
-                                <div key={key} className="comment">
-                                   <Comment commentData={comment} />
-                                </div>
-                             ))
-                           : null}
-                        {isOpen ? (
-                           <CreateComment
-                              dataComment={data}
-                              addComment={addComment}
-                           />
-                        ) : null}
+                     <div>
+                        <Comment data={data} />
                      </div>
                   </div>
                </div>

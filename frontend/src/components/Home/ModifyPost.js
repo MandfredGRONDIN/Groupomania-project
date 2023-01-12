@@ -7,6 +7,7 @@ export default function ModifyPost({ data, canModify, updateData }) {
    const userId = localStorage.getItem("userId");
    const [file, setFile] = useState();
    const dataId = data._id;
+   const dataImage = data.imageUrl;
 
    const handleChangePost = async (e) => {
       e.preventDefault();
@@ -14,10 +15,13 @@ export default function ModifyPost({ data, canModify, updateData }) {
       const data = new FormData();
       data.set("description", textPost);
       data.set("userId", userId);
+
       if (file) {
          data.set("image", file);
+      } else if (dataImage !== "") {
+         data.set("image", dataImage);
       }
-      console.log(data);
+
       try {
          const result = await axios.put(
             `${process.env.REACT_APP_API_URL}api/posts/${dataId}`,
@@ -31,7 +35,6 @@ export default function ModifyPost({ data, canModify, updateData }) {
             }
          );
          if (result.data.message === "Post modified") {
-            console.log(result.data);
             updateData(result.data);
             setIsOpen(!isOpen);
          }
@@ -46,16 +49,9 @@ export default function ModifyPost({ data, canModify, updateData }) {
    };
 
    return canModify ? (
-      <div>
-         <div onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? (
-               <i class="fa-solid fa-xmark"></i>
-            ) : (
-               <i class="fa-solid fa-ellipsis-vertical"></i>
-            )}
-         </div>
+      <div className={isOpen ? "modify__post-active" : "modify__post"}>
          {isOpen ? (
-            <div>
+            <div className="modify__post-form">
                <form action="">
                   <input
                      type="text"
@@ -64,19 +60,42 @@ export default function ModifyPost({ data, canModify, updateData }) {
                      value={textPost}
                      onChange={(e) => setTextPost(e.target.value)}
                   ></input>
-                  <input
-                     type="file"
+                  <div className="button__img">
+                     <label htmlFor="fileImgInput">
+                        <i className="fa-solid fa-image"></i>
+                     </label>
+                     <input
+                        type="file"
+                        name="image"
+                        onChange={handleFileChange}
+                        id="fileImgInput"
+                     ></input>
+                  </div>
+                  {/* <input
+                     type="hidden"
                      name="image"
-                     onChange={handleFileChange}
-                  ></input>
+                     value={file ? file : dataImage}
+                  /> */}
                   <input
                      type="submit"
                      value="submit"
                      onClick={handleChangePost}
-                  ></input>
+                     style={{ display: "none" }}
+                  />
+                  <i
+                     className="fa-solid fa-paper-plane submit__plane"
+                     onClick={handleChangePost}
+                  ></i>
                </form>
             </div>
          ) : null}
+         <div onClick={() => setIsOpen(!isOpen)} className="modify__i">
+            {isOpen ? (
+               <i className="fa-solid fa-xmark"></i>
+            ) : (
+               <i className="fa-solid fa-ellipsis-vertical"></i>
+            )}
+         </div>
       </div>
    ) : null;
 }

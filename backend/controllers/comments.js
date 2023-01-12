@@ -8,7 +8,7 @@ exports.createComment = async (req, res) => {
          aggregate = {
             $push: {
                comments: {
-                  commenterId: req.body.userId,
+                  commenterId: req.body.commenterId,
                   commenterPseudo: req.body.commenterPseudo,
                   text: req.body.text,
                   timestamp: new Date().getTime(),
@@ -29,6 +29,7 @@ exports.createComment = async (req, res) => {
 exports.modifyComment = async (req, res) => {
    try {
       let post = await Post.findOne({ _id: req.params.id });
+      const { text, userId, commentId } = req.body;
       if (!post) {
          return res.status(404).json({ message: "Post not found" });
       }
@@ -42,8 +43,17 @@ exports.modifyComment = async (req, res) => {
          return res.status(401).json({ message: "Unauthorized" });
       }
       comment.text = req.body.text;
+      const postId = req.params.id;
       await post.save(post);
-      return res.status(201).json({ message: "Comment modified" });
+      return res
+         .status(201)
+         .json({
+            message: "Comment modified",
+            commentId,
+            text,
+            userId,
+            postId,
+         });
    } catch (e) {
       console.error(e);
       return res.status(500).json({ message: "Internal error" });

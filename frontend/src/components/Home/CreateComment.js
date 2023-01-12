@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Picture from "../Picture";
 
 export default function CreateComment({ dataComment, addComment }) {
-   console.log(dataComment);
    const [data, setData] = useState([]);
    const [text, setText] = useState("Ecrivez un commentaire");
    const [commenterPseudo, setCommenterPseudo] = useState("");
@@ -30,7 +29,8 @@ export default function CreateComment({ dataComment, addComment }) {
 
    const handleComment = async (e) => {
       e.preventDefault();
-      let item = { userId: commenterId, commenterPseudo, text };
+      const token = localStorage.getItem("token");
+      const item = { commenterId, commenterPseudo, text };
       let result = await fetch(
          `${process.env.REACT_APP_API_URL}api/posts/${postId}/comment-post/`,
          {
@@ -38,6 +38,7 @@ export default function CreateComment({ dataComment, addComment }) {
             headers: {
                "Content-Type": "application/json",
                Accept: "application/json",
+               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(item),
          }
