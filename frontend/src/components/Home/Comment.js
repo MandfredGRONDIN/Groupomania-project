@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CreateComment from "./CreateComment";
 import Picture from "../Picture";
 import ModifyComment from "./ModifyComment";
+import UserPostInformation from "../UserPostInformation";
 
 export default function CommentTest({ data }) {
    const [comments, setComments] = useState(data.comments);
@@ -64,11 +65,15 @@ export default function CommentTest({ data }) {
                  <div key={key} className="comment">
                     <div className="comment__post">
                        <div className="comment__header">
-                          <Picture data={comment.commenterId} />
+                          <Picture
+                             data={comment.commenterId || comment.userId}
+                          />
                        </div>
                        <div className="comment__middle">
                           <div className="comment__middle-head">
-                             <div>{comment.commenterPseudo}</div>
+                             <UserPostInformation
+                                data={comment.commenterId || comment.userId}
+                             />
                              <div>1h</div>
                           </div>
 

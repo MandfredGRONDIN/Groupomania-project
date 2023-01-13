@@ -30,7 +30,7 @@ function Picture({ data }) {
                className="post__picture"
             ></img>
          ) : (
-            <i className="fa-solid fa-user "></i>
+            <i className="fa-solid fa-user i__header"></i>
          )}
       </>
    );

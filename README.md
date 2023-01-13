@@ -2,6 +2,14 @@
 
 En cours de création
 
+Login/Register is working
+
+Home in progress (Create Post/ Modify Post/ Create comment/ Modify comment is working/// Delete post/Comment / Like Post/comment / Date in progress)
+
+Profile in progress (User picture/icone / Email hash is working/// Picture change/ Pseudo change in progress)
+
+Messenger is missing
+
 ### Init
 
 You must have Node and npm
