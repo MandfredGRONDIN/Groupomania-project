@@ -45,15 +45,13 @@ exports.modifyComment = async (req, res) => {
       comment.text = req.body.text;
       const postId = req.params.id;
       await post.save(post);
-      return res
-         .status(201)
-         .json({
-            message: "Comment modified",
-            commentId,
-            text,
-            userId,
-            postId,
-         });
+      return res.status(201).json({
+         message: "Comment modified",
+         commentId,
+         text,
+         userId,
+         postId,
+      });
    } catch (e) {
       console.error(e);
       return res.status(500).json({ message: "Internal error" });
@@ -62,6 +60,7 @@ exports.modifyComment = async (req, res) => {
 
 exports.deleteComment = async (req, res) => {
    try {
+      console.log(req);
       let aggregate = null;
       let post = await Post.findOne({ _id: req.params.id });
       let comment = await post.comments.find(

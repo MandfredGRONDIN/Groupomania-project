@@ -3,8 +3,10 @@ import CreateComment from "./CreateComment";
 import Picture from "../Picture";
 import ModifyComment from "./ModifyComment";
 import UserPostInformation from "../UserPostInformation";
+import DeleteComment from "./DeleteComment";
 
 export default function CommentTest({ data }) {
+   console.log(data);
    const [comments, setComments] = useState(data.comments);
    const [dataUser, setDataUser] = useState([]);
    const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +17,7 @@ export default function CommentTest({ data }) {
 
    useEffect(() => {
       async function fetchData() {
-         const response = fetch(
+         const response = await fetch(
             `${process.env.REACT_APP_API_URL}api/auth/${userId}`,
             {
                method: "GET",
@@ -24,7 +26,7 @@ export default function CommentTest({ data }) {
                },
             }
          );
-         const dataUser = await (await response).json();
+         const dataUser = await response.json();
          setDataUser(dataUser);
       }
       fetchData();
@@ -45,6 +47,14 @@ export default function CommentTest({ data }) {
          return comment;
       });
       setComments(updatedSortedComment);
+   };
+
+   const updateDelete = (delComment) => {
+      console.log(delComment);
+      const updatedComments = comments.filter(
+         (comment) => comment._id !== delComment
+      );
+      setComments(updatedComments);
    };
 
    return (
@@ -84,17 +94,28 @@ export default function CommentTest({ data }) {
                        <div className="comment__like">
                           <i className="fa-regular fa-heart"></i>
                        </div>
-                       <div onClick={() => setModifIsOpen(!modifIsOpen)}>
-                          {localStorageUserId === comment.commenterId ? (
-                             <ModifyComment
-                                dataComment={comment}
-                                canModify={true}
-                                dataPost={data}
-                                updateData={updateData}
-                             />
-                          ) : null}
-                       </div>
+                       <div
+                          onClick={() => setModifIsOpen(!modifIsOpen)}
+                          className={
+                             modifIsOpen ? "modif__open" : "modif__close"
+                          }
+                       ></div>
+                       {localStorageUserId === comment.commenterId ? (
+                          <ModifyComment
+                             dataComment={comment}
+                             canModify={true}
+                             dataPost={data}
+                             updateData={updateData}
+                          />
+                       ) : null}
                     </div>
+                    {localStorageUserId === comment.commenterId ? (
+                       <DeleteComment
+                          commentId={comment._id}
+                          postId={data._id}
+                          updateDelete={updateDelete}
+                       />
+                    ) : null}
                  </div>
               ))
             : null}

@@ -90,7 +90,7 @@ exports.deletePost = async (req, res) => {
       if (post.userId != req.auth.userId) {
          return res.status(401).json({ message: "Unauthorized" });
       }
-      if (req.file) {
+      if (post.imageUrl !== "") {
          const filename = post.imageUrl.split("/images/")[1];
          await fs.unlink(`images/${filename}`);
       }

@@ -61,6 +61,7 @@ export default function ModifyComment({
                      type="submit"
                      value="submit"
                      onClick={handleChangeComment}
+                     style={{ display: "none" }}
                   />
                   <i
                      className="fa-solid fa-paper-plane submit__plane"
@@ -73,7 +74,7 @@ export default function ModifyComment({
             {isOpen ? (
                <i className="fa-solid fa-xmark"></i>
             ) : (
-               <i className="fa-solid fa-ellipsis-vertical"></i>
+               <i class="fa-solid fa-pen-to-square"></i>
             )}
          </div>
       </div>

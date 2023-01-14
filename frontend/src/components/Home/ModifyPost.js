@@ -71,11 +71,6 @@ export default function ModifyPost({ data, canModify, updateData }) {
                         id="fileImgInput"
                      ></input>
                   </div>
-                  {/* <input
-                     type="hidden"
-                     name="image"
-                     value={file ? file : dataImage}
-                  /> */}
                   <input
                      type="submit"
                      value="submit"
@@ -93,7 +88,7 @@ export default function ModifyPost({ data, canModify, updateData }) {
             {isOpen ? (
                <i className="fa-solid fa-xmark"></i>
             ) : (
-               <i className="fa-solid fa-ellipsis-vertical"></i>
+               <i class="fa-solid fa-pen-to-square"></i>
             )}
          </div>
       </div>

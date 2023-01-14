@@ -5,6 +5,7 @@ import "../styles/home.css";
 import Picture from "../components/Picture";
 import UserPostInformation from "../components/UserPostInformation";
 import Comment from "../components/Home/Comment";
+import DeletePost from "../components/Home/DeletePost";
 
 export default function Home() {
    const [data, setData] = useState([]);
@@ -55,11 +56,22 @@ export default function Home() {
       setData(updatedSortedPosts);
    };
 
+   const updateDelete = async () => {
+      const response = await fetch(
+         `${process.env.REACT_APP_API_URL}api/posts/`
+      );
+      const data = await response.json();
+      setData(data);
+   };
+
    return (
       <div id="home">
          <CreatePost addPost={addPost} />
          {sortedPosts.map((data, key) => (
             <div key={key} className="home__posts">
+               {userId === data.userId ? (
+                  <DeletePost postId={data._id} updateDelete={updateDelete} />
+               ) : null}
                <div className="home__post">
                   <div className="post">
                      <div onClick={() => setModifIsOpen(!modifIsOpen)}>

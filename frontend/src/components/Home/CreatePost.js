@@ -11,7 +11,7 @@ export default function CreatePost({ addPost }) {
 
    useEffect(() => {
       async function fetchData() {
-         const response = fetch(
+         const response = await fetch(
             `${process.env.REACT_APP_API_URL}api/auth/${userId}`,
             {
                method: "GET",
@@ -20,7 +20,7 @@ export default function CreatePost({ addPost }) {
                },
             }
          );
-         const dataUser = await (await response).json();
+         const dataUser = await response.json();
          setDataUser(dataUser);
       }
       fetchData();
