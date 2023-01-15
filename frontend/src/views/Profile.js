@@ -17,7 +17,7 @@ export default function Profile() {
 
    useEffect(() => {
       async function fetchData() {
-         const response = fetch(
+         const response = await fetch(
             `${process.env.REACT_APP_API_URL}api/auth/${params.id}`,
             {
                method: "GET",
@@ -26,7 +26,7 @@ export default function Profile() {
                },
             }
          );
-         const data = await (await response).json();
+         const data = await response.json();
          setData(data);
          setName(data.pseudo);
          setEmail(data.email);

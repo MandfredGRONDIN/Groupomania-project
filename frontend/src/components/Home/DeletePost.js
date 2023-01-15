@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function DeletePost({ postId, updateDelete }) {
-   console.log(postId);
-
    const handleDeletePost = async (e) => {
       e.preventDefault();
       const token = localStorage.getItem("token");

@@ -4,13 +4,16 @@ import Picture from "../Picture";
 import ModifyComment from "./ModifyComment";
 import UserPostInformation from "../UserPostInformation";
 import DeleteComment from "./DeleteComment";
+import DateCreate from "../DateCreate";
+import Heart from "../Heart/Heart";
 
 export default function CommentTest({ data }) {
-   console.log(data);
    const [comments, setComments] = useState(data.comments);
    const [dataUser, setDataUser] = useState([]);
    const [isOpen, setIsOpen] = useState(false);
    const [modifIsOpen, setModifIsOpen] = useState(false);
+   const [liked, setLiked] = useState(false);
+   const dataLikes = data.usersLiked;
    const localStorageUserId = localStorage.getItem("userId");
    const userId = data.userId;
    const sortedComment = comments;
@@ -30,17 +33,42 @@ export default function CommentTest({ data }) {
          setDataUser(dataUser);
       }
       fetchData();
-   }, [userId]);
+      if (dataLikes.includes(localStorageUserId)) {
+         setLiked(true);
+      }
+   }, [userId, dataLikes, localStorageUserId]);
 
    const addComment = (newComment) => {
       const sortedComment = [...comments, newComment];
       setComments(sortedComment);
    };
 
+   const handleLike = async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem("token");
+      const dataId = data._id;
+      setLiked(!liked);
+      async function fetchData() {
+         const response = await fetch(
+            `${process.env.REACT_APP_API_URL}api/posts/${dataId}/like`,
+            {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+               },
+               body: JSON.stringify({ userId: localStorageUserId }),
+            }
+         );
+         const result = await response.json();
+         console.log(result);
+      }
+      fetchData();
+   };
+
    const updateData = (newData) => {
-      console.log(newData);
       const updatedSortedComment = comments.map((comment) => {
-         console.log(comment);
          if (comment._id === newData.commentId) {
             return newData;
          }
@@ -50,7 +78,6 @@ export default function CommentTest({ data }) {
    };
 
    const updateDelete = (delComment) => {
-      console.log(delComment);
       const updatedComments = comments.filter(
          (comment) => comment._id !== delComment
       );
@@ -60,8 +87,12 @@ export default function CommentTest({ data }) {
    return (
       <div className="post__comment">
          <div className={isOpen ? "post__footer-active" : "post__footer"}>
-            <div className="post__like">
-               <i className="fa-regular fa-heart"></i>
+            <div className="post__like" onClick={handleLike}>
+               <Heart
+                  dataPost={data.usersLiked}
+                  handleLike={handleLike}
+                  liked={liked}
+               />
             </div>
             <div
                className="post__comment-icone"
@@ -84,7 +115,7 @@ export default function CommentTest({ data }) {
                              <UserPostInformation
                                 data={comment.commenterId || comment.userId}
                              />
-                             <div>1h</div>
+                             <DateCreate dateAt={comment.timestamp} />
                           </div>
 
                           <div className="comment__middle-body">

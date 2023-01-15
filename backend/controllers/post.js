@@ -143,6 +143,8 @@ exports.likePost = async (req, res) => {
             $push: { usersLiked: req.body.userId },
          };
       }
+      console.log(aggregate);
+      console.log(req.body);
       if (aggregate) {
          await Post.updateOne({ _id: req.params.id }, aggregate);
       }

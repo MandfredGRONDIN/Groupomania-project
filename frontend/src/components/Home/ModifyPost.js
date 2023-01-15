@@ -88,7 +88,7 @@ export default function ModifyPost({ data, canModify, updateData }) {
             {isOpen ? (
                <i className="fa-solid fa-xmark"></i>
             ) : (
-               <i class="fa-solid fa-pen-to-square"></i>
+               <i className="fa-solid fa-pen-to-square"></i>
             )}
          </div>
       </div>

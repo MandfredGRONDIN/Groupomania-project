@@ -6,11 +6,12 @@ import Picture from "../components/Picture";
 import UserPostInformation from "../components/UserPostInformation";
 import Comment from "../components/Home/Comment";
 import DeletePost from "../components/Home/DeletePost";
+import DateCreate from "../components/DateCreate";
 
 export default function Home() {
    const [data, setData] = useState([]);
-   const userId = localStorage.getItem("userId");
    const [modifIsOpen, setModifIsOpen] = useState(false);
+   const userId = localStorage.getItem("userId");
 
    useEffect(() => {
       async function fetchData() {
@@ -87,7 +88,7 @@ export default function Home() {
                         <Picture data={data.userId} />
                         <div>
                            <UserPostInformation data={data.userId} />
-                           <div>2h</div>
+                           <DateCreate dateAt={data.createdAt} />
                         </div>
                      </div>
                      <div className="post__description">{data.description}</div>
@@ -96,6 +97,7 @@ export default function Home() {
                            <img src={data.imageUrl} alt="Post" />
                         </div>
                      ) : null}
+                     <div>{data.likes} J'aime</div>
                      <div>
                         <Comment data={data} />
                      </div>
