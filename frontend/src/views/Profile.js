@@ -1,12 +1,16 @@
 import React from "react";
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/profile.css";
+import Picture from "../components/Picture";
 
 export default function Profile() {
    const [data, setData] = useState([]);
-   const [name, setName] = useState("");
+   const [pseudo, setPseudo] = useState("");
    const [email, setEmail] = useState("");
+   const [file, setFile] = useState();
+   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
    const params = useParams();
 
    let hideEmail = (email) => {
@@ -18,7 +22,7 @@ export default function Profile() {
    useEffect(() => {
       async function fetchData() {
          const response = await fetch(
-            `${process.env.REACT_APP_API_URL}api/auth/${params.id}`,
+            `${process.env.REACT_APP_API_URL}api/auth/log/${params.id}`,
             {
                method: "GET",
                headers: {
@@ -28,38 +32,99 @@ export default function Profile() {
          );
          const data = await response.json();
          setData(data);
-         setName(data.pseudo);
+         setPseudo(data.pseudo);
          setEmail(data.email);
       }
       fetchData();
    }, [params]);
 
+   const handleProfile = async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem("token");
+      const data = new FormData();
+      data.append("pseudo", pseudo);
+      if (file) {
+         data.append("image", file);
+      }
+      try {
+         const result = await axios.put(
+            `${process.env.REACT_APP_API_URL}api/auth/modify/${params.id}`,
+            data,
+            {
+               headers: {
+                  "Content-Type": "multipart/form-data",
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+               },
+            }
+         );
+         if (result.data.message === "User modified") {
+            window.location.reload(false);
+         }
+      } catch (e) {
+         console.error(e);
+      }
+   };
+
+   const handleFileChange = (e) => {
+      const selectedFile = e.target.files[0];
+      setFile(selectedFile);
+      setImagePreviewUrl(URL.createObjectURL(selectedFile));
+   };
+
    return (
       <div id="profile">
          <div className="user__img">
-            {data.picture ? (
+            {imagePreviewUrl ? (
                <img
-                  src={`${process.env.REACT_APP_API_URL}images/${data.picture}`}
-                  alt="Profil"
-                  className="user__img-img"
+                  src={imagePreviewUrl}
+                  alt="Preview"
+                  className="preview__img"
                />
             ) : (
-               <i className="fa-solid fa-user "></i>
+               <Picture data={params.id} />
             )}
+            <div className="button__img">
+               <label htmlFor="fileInput">
+                  <i className="fa-solid fa-camera"></i>
+               </label>
+               <input
+                  type="file"
+                  name="image"
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                  id="fileInput"
+               />
+            </div>
          </div>
-         <div id="profile__name">
-            <label htmlFor="name"></label>
-            <input type="text" name="name" id="name" value={name} />
-         </div>
-         <div id="profile__email">
-            <label htmlFor="email"></label>
+         <form className="form__profile">
+            <div id="profile__name">
+               <label htmlFor="name"></label>
+               <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  onChange={(e) => setPseudo(e.target.value)}
+                  value={pseudo}
+               />
+            </div>
+            <div id="profile__email">
+               <label htmlFor="email"></label>
+               <input
+                  type="email"
+                  name="email"
+                  className="email profile"
+                  defaultValue={hideEmail(email)}
+                  readOnly
+               />
+            </div>
             <input
-               type="email"
-               name="email"
-               className="email profile"
-               value={hideEmail(email)}
+               id="modify__profile"
+               type="submit"
+               value="Modify Profile"
+               onClick={handleProfile}
             />
-         </div>
+         </form>
       </div>
    );
 }

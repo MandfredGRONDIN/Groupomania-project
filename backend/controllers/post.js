@@ -51,6 +51,10 @@ exports.modifyPost = async (req, res) => {
       } else {
          post.imageUrl = post.imageUrl;
       }
+
+      usersLiked = post.usersLiked;
+      comments = post.comments;
+
       const { description, userId } = req.body;
       const imageUrl = req.file
          ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
@@ -60,8 +64,10 @@ exports.modifyPost = async (req, res) => {
          description,
          userId,
          imageUrl,
+         usersLiked,
+         comments,
       };
-      console.log(postObject);
+
       delete postObject.userId;
       await Post.updateOne(
          { _id: req.params.id },
@@ -74,6 +80,8 @@ exports.modifyPost = async (req, res) => {
          imageUrl,
          description,
          userId,
+         usersLiked,
+         comments,
       });
    } catch (e) {
       console.error(e);
@@ -143,8 +151,7 @@ exports.likePost = async (req, res) => {
             $push: { usersLiked: req.body.userId },
          };
       }
-      console.log(aggregate);
-      console.log(req.body);
+
       if (aggregate) {
          await Post.updateOne({ _id: req.params.id }, aggregate);
       }

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Picture from "../Picture";
+import Logout from "../Logout";
 
 export default function Header() {
    const userId = localStorage.getItem("userId");
+   const navigate = useNavigate();
 
    return (
       <div id="header">
@@ -24,7 +26,14 @@ export default function Header() {
                <Picture data={userId} />
             </Link>
             <div className="header__profile">
-               <i className="fa-solid fa-right-from-bracket i__header"></i>
+               <i
+                  className="fa-solid fa-right-from-bracket i__header"
+                  onClick={() => {
+                     localStorage.removeItem("token");
+                     localStorage.removeItem("userId");
+                     navigate("/");
+                  }}
+               ></i>
             </div>
          </nav>
       </div>

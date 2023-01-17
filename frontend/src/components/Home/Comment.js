@@ -7,7 +7,7 @@ import DeleteComment from "./DeleteComment";
 import DateCreate from "../DateCreate";
 import Heart from "../Heart/Heart";
 
-export default function CommentTest({ data }) {
+export default function CommentTest({ data, intervalId, refreshData }) {
    const [comments, setComments] = useState(data.comments);
    const [dataUser, setDataUser] = useState([]);
    const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function CommentTest({ data }) {
    useEffect(() => {
       async function fetchData() {
          const response = await fetch(
-            `${process.env.REACT_APP_API_URL}api/auth/${userId}`,
+            `${process.env.REACT_APP_API_URL}api/auth/log/${userId}`,
             {
                method: "GET",
                headers: {
@@ -35,6 +35,8 @@ export default function CommentTest({ data }) {
       fetchData();
       if (dataLikes.includes(localStorageUserId)) {
          setLiked(true);
+      } else {
+         setLiked(false);
       }
    }, [userId, dataLikes, localStorageUserId]);
 
@@ -61,8 +63,7 @@ export default function CommentTest({ data }) {
                body: JSON.stringify({ userId: localStorageUserId }),
             }
          );
-         const result = await response.json();
-         console.log(result);
+         await response.json();
       }
       fetchData();
    };
@@ -122,9 +123,6 @@ export default function CommentTest({ data }) {
                              {comment.text}
                           </div>
                        </div>
-                       <div className="comment__like">
-                          <i className="fa-regular fa-heart"></i>
-                       </div>
                        <div
                           onClick={() => setModifIsOpen(!modifIsOpen)}
                           className={
@@ -151,7 +149,12 @@ export default function CommentTest({ data }) {
               ))
             : null}
          {isOpen ? (
-            <CreateComment dataComment={data} addComment={addComment} />
+            <CreateComment
+               dataComment={data}
+               addComment={addComment}
+               intervalId={intervalId}
+               refreshData={refreshData}
+            />
          ) : null}
       </div>
    );

@@ -1,18 +1,30 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Picture from "../Picture";
 
-export default function CreateComment({ dataComment, addComment }) {
+export default function CreateComment({
+   dataComment,
+   addComment,
+   intervalId,
+   refreshData,
+}) {
    const [data, setData] = useState([]);
    const [text, setText] = useState("Ecrivez un commentaire");
    const [commenterPseudo, setCommenterPseudo] = useState("");
+   const inputRef = useRef(null);
    const postId = dataComment._id;
    const commenterId = localStorage.getItem("userId");
 
    useEffect(() => {
+      inputRef.current.addEventListener("focus", () => {
+         clearInterval(intervalId);
+      });
+   }, [intervalId]);
+
+   useEffect(() => {
       async function fetchData() {
          const response = fetch(
-            `${process.env.REACT_APP_API_URL}api/auth/${commenterId}`,
+            `${process.env.REACT_APP_API_URL}api/auth/log/${commenterId}`,
             {
                method: "GET",
                headers: {
@@ -48,6 +60,8 @@ export default function CreateComment({ dataComment, addComment }) {
       if (result.message === "Comment added") {
          setText("");
          addComment(item);
+         clearInterval(intervalId);
+         refreshData();
       }
    };
 
@@ -63,6 +77,7 @@ export default function CreateComment({ dataComment, addComment }) {
                      type="text"
                      name="text"
                      id="text"
+                     ref={inputRef}
                      onClick={(e) => {
                         if (e.target.value === "Ecrivez un commentaire") {
                            e.target.value = "";

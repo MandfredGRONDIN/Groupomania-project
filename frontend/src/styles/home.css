@@ -279,8 +279,8 @@
 }
 .delete__comment{
     position: absolute;
-    right: 2%;
-    top: 50%;
+    right: 3.3%;
+    top: 70px;
     cursor: pointer;
     font-size: 20px;
 }
@@ -296,9 +296,27 @@
 }
 .modify__comment{
     position: absolute;
-    top: 13%;
-    left: 98%;
+    top: 35px;
+    left: 95%;
     font-size: 22px;
+}
+.modif__close{
+    width: 10%;
+    max-width: 95px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 25px;
+}
+.footer__post-like-comment{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    font-size: 20px;
+    margin: 20px 0 10px 0;
+}
+.footer__post-like,.footer__post-comment{
+    width: 100%;
+    text-align: center;
 }
 .fa-heart{
     cursor: pointer;

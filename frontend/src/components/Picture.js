@@ -7,7 +7,7 @@ function Picture({ data }) {
    useEffect(() => {
       async function fetchData() {
          const response = await fetch(
-            `${process.env.REACT_APP_API_URL}api/auth/${dataId}`,
+            `${process.env.REACT_APP_API_URL}api/auth/log/${dataId}`,
             {
                method: "GET",
                headers: {

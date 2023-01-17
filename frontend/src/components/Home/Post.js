@@ -15,7 +15,7 @@ export default function Post({ data }) {
    useEffect(() => {
       async function fetchData() {
          const response = await fetch(
-            `${process.env.REACT_APP_API_URL}api/auth/${userId}`,
+            `${process.env.REACT_APP_API_URL}api/auth/log/${userId}`,
             {
                method: "GET",
                headers: {

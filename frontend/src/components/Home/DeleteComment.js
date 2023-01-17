@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function DeleteComment({ commentId, postId, updateDelete }) {
-   console.log(commentId);
-   console.log(postId);
    const userId = localStorage.getItem("userId");
    const token = localStorage.getItem("token");
 

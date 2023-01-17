@@ -7,13 +7,11 @@ export default function ModifyComment({
    canModify,
    dataPost,
 }) {
-   console.log(dataPost);
    const [isOpen, setIsOpen] = useState(false);
    const [textComment, setTextComment] = useState(dataComment.text);
    const userId = localStorage.getItem("userId");
    const commentId = dataComment._id;
    const postId = dataPost._id;
-   console.log(dataComment);
 
    const handleChangeComment = async (e) => {
       e.preventDefault();
@@ -35,7 +33,6 @@ export default function ModifyComment({
                },
             }
          );
-         console.log(result);
          if (result.data.message === "Comment modified") {
             updateData(result.data);
             setIsOpen(!isOpen);
@@ -74,7 +71,7 @@ export default function ModifyComment({
             {isOpen ? (
                <i className="fa-solid fa-xmark"></i>
             ) : (
-               <i class="fa-solid fa-pen-to-square"></i>
+               <i className="fa-solid fa-pen-to-square"></i>
             )}
          </div>
       </div>

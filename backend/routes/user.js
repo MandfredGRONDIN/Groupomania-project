@@ -8,8 +8,8 @@ router.post("/signup", userCtrl.signup);
 
 router.post("/login", userCtrl.login);
 
-router.get("/:id", userCtrl.getOneUser);
+router.get("/log/:id", userCtrl.getOneUser);
 
-router.patch("/modify/:id", multer, userCtrl.modifyUser);
+router.put("/modify/:id", multer, userCtrl.modifyUser);
 
 module.exports = router;

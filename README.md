@@ -4,9 +4,11 @@ En cours de création
 
 Login/Register is working
 
-Home in progress (Create Post/ Modify Post/ Create comment/ Modify comment/ Delete post/ Like Post/ Comment/ Date is working /// Like comment in progress)
+Profile is working ( User picture/icone / Email hash / Picture change / Pseudo change )
 
-Profile in progress (User picture/icone / Email hash is working/// Picture change/ Pseudo change in progress)
+Home is working ( Create Post / Modify Post / Create comment / Modify comment / Delete post / Delete comment / Like/Dislike Post / Date )
+
+Logout is working
 
 Messenger is missing
 

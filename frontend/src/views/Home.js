@@ -11,6 +11,7 @@ import DateCreate from "../components/DateCreate";
 export default function Home() {
    const [data, setData] = useState([]);
    const [modifIsOpen, setModifIsOpen] = useState(false);
+   const [intervalId, setIntervalId] = useState(null);
    const userId = localStorage.getItem("userId");
 
    useEffect(() => {
@@ -28,7 +29,32 @@ export default function Home() {
          setData(data);
       }
       fetchData();
+      const interval = setInterval(() => {
+         fetchData();
+      }, 2000);
+      setIntervalId(interval);
+      return () => clearInterval(interval);
    }, []);
+   const refreshData = async (e) => {
+      const interval = setInterval(() => {
+         async function fetchData() {
+            const response = await fetch(
+               `${process.env.REACT_APP_API_URL}api/posts/`,
+               {
+                  method: "GET",
+                  headers: {
+                     "Content-Type": "application/json",
+                  },
+               }
+            );
+            const data = await response.json();
+            setData(data);
+         }
+         fetchData();
+      }, 2000);
+      setIntervalId(interval);
+      return () => clearInterval(interval);
+   };
 
    const sortedPosts = data.sort((a, b) => {
       const dateA = new Date(a.createdAt);
@@ -46,9 +72,7 @@ export default function Home() {
    };
 
    const updateData = (newData) => {
-      console.log(newData);
       const updatedSortedPosts = data.map((post) => {
-         console.log(post);
          if (post._id === newData.id) {
             return newData;
          }
@@ -97,9 +121,27 @@ export default function Home() {
                            <img src={data.imageUrl} alt="Post" />
                         </div>
                      ) : null}
-                     <div>{data.likes} J'aime</div>
+                     <div className="footer__post-like-comment">
+                        <div className="footer__post-like">
+                           {data.likes === 0 || data.likes === 1
+                              ? `${data.likes} like`
+                              : `${data.likes} likes`}
+                        </div>
+                        <div className="footer__post-comment">
+                           {data.comments
+                              ? data.comments.length === 0 ||
+                                data.comments.length === 1
+                                 ? `${data.comments.length} comment`
+                                 : `${data.comments.length} comments`
+                              : "0 comments"}
+                        </div>
+                     </div>
                      <div>
-                        <Comment data={data} />
+                        <Comment
+                           data={data}
+                           intervalId={intervalId}
+                           refreshData={refreshData}
+                        />
                      </div>
                   </div>
                </div>

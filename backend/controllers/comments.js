@@ -39,6 +39,8 @@ exports.modifyComment = async (req, res) => {
       if (!comment) {
          return res.status(404).json({ message: "Comment not found" });
       }
+      console.log(comment);
+      const timestamp = comment.timestamp;
       if (comment.commenterId != req.auth.userId) {
          return res.status(401).json({ message: "Unauthorized" });
       }
@@ -51,6 +53,7 @@ exports.modifyComment = async (req, res) => {
          text,
          userId,
          postId,
+         timestamp,
       });
    } catch (e) {
       console.error(e);

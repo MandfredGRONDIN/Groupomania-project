@@ -12,7 +12,7 @@ export default function CreatePost({ addPost }) {
    useEffect(() => {
       async function fetchData() {
          const response = await fetch(
-            `${process.env.REACT_APP_API_URL}api/auth/${userId}`,
+            `${process.env.REACT_APP_API_URL}api/auth/log/${userId}`,
             {
                method: "GET",
                headers: {
@@ -53,6 +53,8 @@ export default function CreatePost({ addPost }) {
                description: textPost,
                userId: userId,
                imageUrl: result.data.postImg,
+               usersLiked: [],
+               likes: 0,
             };
             setTextPost("Quoi de neuf?");
             setFile("");

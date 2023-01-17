@@ -10,7 +10,7 @@
     margin: 10px 0;
 }
 #profile__name input{
-    width: 97%;
+    width: 95%;
     padding: 20px 0 20px 15px;
     font-size: 20px;
     border-radius: 30px;
@@ -43,10 +43,24 @@
     height: 100%;
 }
 .user__img i{
-    font-size: 125px;
+    font-size: 44px;
     position: absolute;
-    top: 50%;
+    top: 88%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: #4E5166;
+}
+#modify__profile{
+    margin: 20px 0;
+    width: 80%;
+    padding: 20px 20px 20px 20px;
+    font-size: 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+}
+.form__profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
