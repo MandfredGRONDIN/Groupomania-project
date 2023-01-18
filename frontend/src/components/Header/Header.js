@@ -1,12 +1,38 @@
-import React, { useEffect } from "react";
+import React from "react";
 import logo from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import Picture from "../Picture";
-import Logout from "../Logout";
 
 export default function Header() {
    const userId = localStorage.getItem("userId");
    const navigate = useNavigate();
+
+   const handleLogout = async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem("token");
+      async function fetchData() {
+         const result = await fetch(
+            `${process.env.REACT_APP_API_URL}api/auth/logout`,
+            {
+               method: "POST",
+               headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json",
+                  Authorization: `Bearer ${token}`,
+               },
+            }
+         );
+         console.log(result);
+         const results = await result.json();
+         console.log(results);
+         if (results.message === "Sign out") {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            navigate("/");
+         }
+      }
+      fetchData();
+   };
 
    return (
       <div id="header">
@@ -28,11 +54,7 @@ export default function Header() {
             <div className="header__profile">
                <i
                   className="fa-solid fa-right-from-bracket i__header"
-                  onClick={() => {
-                     localStorage.removeItem("token");
-                     localStorage.removeItem("userId");
-                     navigate("/");
-                  }}
+                  onClick={handleLogout}
                ></i>
             </div>
          </nav>

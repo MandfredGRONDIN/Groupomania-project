@@ -8,6 +8,8 @@ router.post("/signup", userCtrl.signup);
 
 router.post("/login", userCtrl.login);
 
+router.post("/logout", auth, userCtrl.logout);
+
 router.get("/log/:id", userCtrl.getOneUser);
 
 router.put("/modify/:id", multer, userCtrl.modifyUser);

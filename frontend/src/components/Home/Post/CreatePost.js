@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import Picture from "../Picture";
+import React, { useEffect, useState, useRef } from "react";
+import Picture from "../../Picture";
 import axios from "axios";
 
-export default function CreatePost({ addPost }) {
+export default function CreatePost({ addPost, intervalId }) {
    const [dataUser, setDataUser] = useState([]);
    const [textPost, setTextPost] = useState(`Quoi de neuf?`);
-   const userId = localStorage.getItem("userId");
    const [file, setFile] = useState();
    const [imagePreviewUrl, setImagePreviewUrl] = useState("");
+   const inputRef = useRef(null);
+   const userId = localStorage.getItem("userId");
 
    useEffect(() => {
       async function fetchData() {
@@ -25,6 +26,12 @@ export default function CreatePost({ addPost }) {
       }
       fetchData();
    }, [userId]);
+
+   useEffect(() => {
+      inputRef.current.addEventListener("focus", () => {
+         clearInterval(intervalId);
+      });
+   }, [intervalId]);
 
    const handlePost = async (e) => {
       e.preventDefault();
@@ -60,6 +67,7 @@ export default function CreatePost({ addPost }) {
             setFile("");
             setImagePreviewUrl("");
             addPost(postObject);
+            window.location.reload(false);
          }
       } catch (error) {
          console.error(error);
@@ -83,6 +91,7 @@ export default function CreatePost({ addPost }) {
                   type="text"
                   name="text"
                   id="post__form"
+                  ref={inputRef}
                   onClick={(e) => {
                      if (e.target.value === "Quoi de neuf?") {
                         e.target.value = "";

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import CreateComment from "./CreateComment";
-import Picture from "../Picture";
+import Picture from "../../Picture";
 import ModifyComment from "./ModifyComment";
-import UserPostInformation from "../UserPostInformation";
+import UserPostInformation from "../../UserPostInformation";
 import DeleteComment from "./DeleteComment";
-import DateCreate from "../DateCreate";
-import Heart from "../Heart/Heart";
+import DateCreate from "../../DateCreate";
+import Heart from "../../Heart/Heart";
 
 export default function CommentTest({ data, intervalId, refreshData }) {
    const [comments, setComments] = useState(data.comments);

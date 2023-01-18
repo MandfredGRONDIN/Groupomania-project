@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import CreatePost from "../components/Home/CreatePost";
-import ModifyPost from "../components/Home/ModifyPost";
+import CreatePost from "../components/Home/Post/CreatePost";
+import ModifyPost from "../components/Home/Post/ModifyPost";
 import "../styles/home.css";
 import Picture from "../components/Picture";
 import UserPostInformation from "../components/UserPostInformation";
-import Comment from "../components/Home/Comment";
-import DeletePost from "../components/Home/DeletePost";
+import Comment from "../components/Home/Comment/Comment";
+import DeletePost from "../components/Home/Post/DeletePost";
 import DateCreate from "../components/DateCreate";
 
 export default function Home() {
@@ -91,7 +91,7 @@ export default function Home() {
 
    return (
       <div id="home">
-         <CreatePost addPost={addPost} />
+         <CreatePost addPost={addPost} intervalId={intervalId} />
          {sortedPosts.map((data, key) => (
             <div key={key} className="home__posts">
                {userId === data.userId ? (

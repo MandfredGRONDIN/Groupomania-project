@@ -19,13 +19,14 @@ exports.signup = async (req, res) => {
             .status(400)
             .json({ errorPasswordCheck: "Different passwords" });
       }
+      const token = jwt.sign({ userId: user._id }, process.env.TOKEN_KEY, {
+         expiresIn: "24h",
+      });
       await user.save();
       return res.status(201).json({
          userCreated: "User created !",
          userId: user._id,
-         token: jwt.sign({ userId: user._id }, process.env.TOKEN_KEY, {
-            expiresIn: "24h",
-         }),
+         token,
       });
    } catch (e) {
       console.error(e);
@@ -49,15 +50,48 @@ exports.login = async (req, res) => {
       if (!valid) {
          return res.status(401).json({ errorPassword: "Incorrect password !" });
       }
+      const token = jwt.sign({ userId: user._id }, process.env.TOKEN_KEY, {
+         expiresIn: "24h",
+      });
+
+      let oldTokens = user.tokens || [];
+
+      if (oldTokens.length) {
+         oldTokens = oldTokens.filter((t) => {
+            const timeDiff = (Date.now() - parseInt(t.signedAt)) / 1000;
+            if (timeDiff < 86400) {
+               return t;
+            }
+         });
+      }
+
+      await User.findByIdAndUpdate(user._id, {
+         tokens: [...oldTokens, { token, signedAt: Date.now().toString() }],
+      });
+
       return res.status(200).json({
          userId: user._id,
-         token: jwt.sign({ userId: user._id }, process.env.TOKEN_KEY, {
-            expiresIn: "24h",
-         }),
+         token,
       });
    } catch (e) {
       console.error(e);
       return res.status(500).json({ message: "Internal error" });
+   }
+};
+
+exports.logout = async (req, res) => {
+   if (req.headers && req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
+      if (!decodedToken) {
+         return res.status(401).json({ message: "Authentification failed" });
+      }
+      const tokens = req.auth.tokens;
+
+      const newTokens = tokens.filter((t) => t.userId !== decodedToken.userId);
+
+      await User.findByIdAndUpdate(req.auth.userId, { tokens: newTokens });
+      return res.status(200).json({ message: "Sign out" });
    }
 };
 

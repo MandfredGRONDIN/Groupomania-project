@@ -15,6 +15,7 @@ const userSchema = mongoose.Schema(
       email: { type: String, required: true, unique: true },
       password: { type: String, required: true },
       picture: { type: String, default: "" },
+      tokens: [{ type: Object }],
    },
    {
       timestamps: true,

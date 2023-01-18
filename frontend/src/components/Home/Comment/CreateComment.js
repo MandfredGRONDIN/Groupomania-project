@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import Picture from "../Picture";
+import Picture from "../../Picture";
 
 export default function CreateComment({
    dataComment,

@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
       const userId = decodedToken.userId;
       req.auth = {
          userId: userId,
+         tokens: [decodedToken],
       };
       next();
    } catch (error) {
