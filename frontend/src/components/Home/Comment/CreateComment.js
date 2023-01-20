@@ -23,7 +23,7 @@ export default function CreateComment({
 
    useEffect(() => {
       async function fetchData() {
-         const response = fetch(
+         const response = await fetch(
             `${process.env.REACT_APP_API_URL}api/auth/log/${commenterId}`,
             {
                method: "GET",
@@ -32,7 +32,7 @@ export default function CreateComment({
                },
             }
          );
-         const data = await (await response).json();
+         const data = await response.json();
          setData(data);
          setCommenterPseudo(data.pseudo);
       }

@@ -25,7 +25,6 @@ export default function Log() {
       );
       result = await result.json();
 
-      console.log(result);
       if (result.errorEmail) {
          setPasswordError("");
          setEmailError("email incorrect");

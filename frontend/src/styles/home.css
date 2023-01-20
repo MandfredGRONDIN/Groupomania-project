@@ -135,7 +135,7 @@
 }
 .comment__middle{
     width: 100%;
-    background-color: #FFD7D7;
+    background-color: #FFF;
     border-radius: 30px;
     font-size: 20px;
     margin: 20px 0 20px 0;
@@ -291,7 +291,7 @@
 .delete__post{
     position: absolute;
     cursor: pointer;
-    right: -2%;
+    right: -3%;
     top: 20px;
     font-size: 20px;
 }

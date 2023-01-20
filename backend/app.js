@@ -1,6 +1,7 @@
 const express = require("express");
 const userRoutes = require("./routes/user");
 const postRoutes = require("./routes/post");
+const messengerRoutes = require("./routes/messenger");
 const path = require("path");
 require("dotenv").config({ path: "./config/.env" });
 require("./config/db");
@@ -31,6 +32,9 @@ app.use("/api/auth", userRoutes);
 
 // Routes post
 app.use("/api/posts", postRoutes);
+
+// Routes messenger
+app.use("/api/messenger", messengerRoutes);
 
 // Routes des static (images)
 app.use("/images", express.static(path.join(__dirname, "images")));
