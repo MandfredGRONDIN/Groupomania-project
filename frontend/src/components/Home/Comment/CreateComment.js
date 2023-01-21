@@ -69,7 +69,7 @@ export default function CreateComment({
       <div>
          <div className="create__comment-picture">
             <div className="create__comment-header">
-               <Picture img={data.picture} />
+               <Picture data={data.picture} />
             </div>
             <div className="create__comment-body">
                <form action="" onSubmit={handleComment} id="post__comment-form">
