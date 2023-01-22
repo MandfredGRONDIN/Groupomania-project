@@ -37,6 +37,10 @@ Modify Post
 Modify Comment
 ![Modify Comment](https://user-images.githubusercontent.com/106658617/213933575-2b0a3dd5-0ba0-4c30-a7a3-71401ff71b71.PNG)
 
+Modify Comment when we can and can't
+![Modify Comment we can and can't](https://user-images.githubusercontent.com/106658617/213933746-e5b325d9-c935-4b56-9ba6-dfabcbdf2f9c.PNG)
+
+
 Post from someone else
 ![Post Someone Else](https://user-images.githubusercontent.com/106658617/213933587-942e6b4c-1d5a-4967-b1e2-351df1cfa6a1.PNG)
 
