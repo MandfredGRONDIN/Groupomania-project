@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CreateMessage from "../components/Messenger/CreateMessage";
 import Picture from "../components/Picture";
+import UserPostInformation from "../components/UserPostInformation";
 import "../styles/messenger.css";
 
 export default function Messenger() {
@@ -9,6 +11,11 @@ export default function Messenger() {
       useState(null);
    const [selectedConversationId, setSelectedConversationId] = useState(null);
    const params = useParams();
+
+   const scroll = async (e) => {
+      const conversation = document.querySelector(".messenger__conversation");
+      conversation.scrollTop = conversation.scrollHeight;
+   };
 
    useEffect(() => {
       const token = localStorage.getItem("token");
@@ -26,6 +33,7 @@ export default function Messenger() {
          );
          const result = await response.json();
          setDatas(result);
+         scroll();
       }
       fetchData();
       if (selectedConversationId) {
@@ -43,12 +51,22 @@ export default function Messenger() {
             );
             const result = await response.json();
             setSelectedConversationData(result);
+            scroll();
          }
          fetchConversationData();
       }
    }, [selectedConversationId]);
-   console.log(datas);
-   console.log(selectedConversationData);
+
+   const addMessage = (newMessage) => {
+      setSelectedConversationData((prevData) => {
+         return {
+            ...prevData,
+            messages: [...prevData.messages, newMessage],
+         };
+      });
+      scroll();
+   };
+
    return (
       <div id="messenger">
          <div className="messenger__left">
@@ -59,38 +77,59 @@ export default function Messenger() {
                   onClick={() => setSelectedConversationId(data._id)}
                >
                   <div className="messenger__discussion-picture">
-                     <Picture data={data.receiver} />
+                     <Picture
+                        data={
+                           data.receiver === params.id
+                              ? data.sender
+                              : data.receiver
+                        }
+                     />
                   </div>
                   <div className="messenger__discussion-name">
-                     Ceci est un test....
+                     {data.receiver === params.id ? (
+                        <UserPostInformation data={data.sender} />
+                     ) : (
+                        <UserPostInformation data={data.receiver} />
+                     )}
                   </div>
                </div>
             ))}
          </div>
          {selectedConversationData ? (
             <div className="messenger__right">
-               <div className="messenger__conversation">
-                  {selectedConversationData.messages.map((message) => (
-                     <div className="messenger__conversation-bloc">
-                        {message.sender === params.id ? (
-                           <div className="left">
-                              <div className="messenger__conversation-message">
-                                 {message.message}
+               <div className="messenger__right-bloc">
+                  <div className="messenger__conversation">
+                     {selectedConversationData.messages.map((message, key) => (
+                        <div className="messenger__conversation-bloc" key={key}>
+                           {message.sender === params.id ? (
+                              <div className="right">
+                                 <div className="messenger__conversation-message">
+                                    {message.message}
+                                 </div>
                               </div>
-                           </div>
-                        ) : (
-                           <div className="right">
-                              <div className="messenger__conversation-message">
-                                 {message.message}
+                           ) : (
+                              <div className="left">
+                                 <div className="messenger__conversation-message">
+                                    {message.message}
+                                 </div>
                               </div>
-                           </div>
-                        )}
-                     </div>
-                  ))}
+                           )}
+                        </div>
+                     ))}
+                  </div>
+                  <CreateMessage
+                     addMessage={addMessage}
+                     conversationData={selectedConversationData}
+                  />
                </div>
             </div>
          ) : (
-            <div className="messenger__right"></div>
+            <div className="messenger__right">
+               <div className="messenger__right-bloc">
+                  <div className="messenger__conversation"></div>
+                  {/* <CreateMessage addMessage={addMessage} /> */}
+               </div>
+            </div>
          )}
       </div>
    );

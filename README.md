@@ -10,7 +10,7 @@ Home is working ( Create Post / Modify Post / Create comment / Modify comment / 
 
 Logout is working
 
-Messenger is missing
+Messenger in progress ( Create Message from a conversation is working //// Create a conversation / Modify message / Delete message in progress)
 
 ### Init
 

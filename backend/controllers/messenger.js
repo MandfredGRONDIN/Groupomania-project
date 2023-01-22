@@ -30,7 +30,9 @@ exports.createMessage = async (req, res) => {
          conversation.messages.push({ sender, message });
       }
       await conversation.save();
-      res.status(201).json({ message: "Message sent successfully" });
+      res.status(201).json({
+         message: "Message sent successfully",
+      });
    } catch (error) {
       res.status(500).json({ message: "Internal error" });
    }
@@ -99,14 +101,12 @@ exports.getOneMessage = async (req, res) => {
 
 exports.getAllMessage = async (req, res) => {
    try {
-      console.log(req.auth.userId);
       let messages = await Messenger.find({
          $or: [{ sender: req.auth.userId }, { receiver: req.auth.userId }],
       });
       if (!messages) {
          return res.status(404).json({ message: "Message not found" });
       }
-      console.log(messages);
       return res.status(200).json(messages);
    } catch (e) {
       console.error(e);
