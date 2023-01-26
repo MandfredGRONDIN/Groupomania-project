@@ -53,6 +53,7 @@ export default function Register() {
       }
       if (result.userCreated) {
          localStorage.setItem("userId", result.userId);
+         localStorage.setItem("token", result.token);
          navigate(`/home`);
       }
    };

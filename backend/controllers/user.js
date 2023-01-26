@@ -112,6 +112,20 @@ exports.getOneUser = async (req, res) => {
    }
 };
 
+exports.getOnePseudoUser = async (req, res) => {
+   try {
+      const searchUser = req.query.user;
+      const users = await User.find({
+         pseudo: { $regex: searchUser, $options: "i" },
+      });
+      console.log(users);
+      return res.status(200).json(users);
+   } catch (e) {
+      console.error(e);
+      return res.status(500).json({ message: "Internal error" });
+   }
+};
+
 exports.modifyUser = async (req, res) => {
    try {
       const user = await User.findById(req.params.id);

@@ -12,6 +12,8 @@ router.post("/logout", auth, userCtrl.logout);
 
 router.get("/log/:id", userCtrl.getOneUser);
 
+router.get("/search", userCtrl.getOnePseudoUser);
+
 router.put("/modify/:id", multer, userCtrl.modifyUser);
 
 module.exports = router;

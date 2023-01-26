@@ -10,12 +10,15 @@ export default function Messenger() {
    const [selectedConversationData, setSelectedConversationData] =
       useState(null);
    const [selectedConversationId, setSelectedConversationId] = useState(null);
+   const [conversation, setConversation] = useState([]);
+   const [searchResults, setSearchResults] = useState([]);
+   const [createConversation, setCreateConversation] = useState("");
    const params = useParams();
 
-   const scroll = async (e) => {
+   useEffect(() => {
       const conversation = document.querySelector(".messenger__conversation");
       conversation.scrollTop = conversation.scrollHeight;
-   };
+   }, [selectedConversationData]);
 
    useEffect(() => {
       const token = localStorage.getItem("token");
@@ -33,7 +36,6 @@ export default function Messenger() {
          );
          const result = await response.json();
          setDatas(result);
-         scroll();
       }
       fetchData();
       if (selectedConversationId) {
@@ -51,49 +53,98 @@ export default function Messenger() {
             );
             const result = await response.json();
             setSelectedConversationData(result);
-            scroll();
          }
          fetchConversationData();
       }
    }, [selectedConversationId]);
 
+   const handleSearch = async (query) => {
+      const response = await fetch(
+         `${process.env.REACT_APP_API_URL}api/auth/search?user=${query}`,
+         {
+            method: "GET",
+            headers: {
+               "Content-Type": "application/json",
+               Accept: "application/json",
+               Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+         }
+      );
+      const result = await response.json();
+      setSearchResults(result);
+   };
+
    const addMessage = (newMessage) => {
       setSelectedConversationData((prevData) => {
+         console.log(prevData);
          return {
             ...prevData,
             messages: [...prevData.messages, newMessage],
          };
       });
-      scroll();
    };
+
+   const handleCreateConversation = (user) => {
+      setCreateConversation(user);
+   };
+
+   const sortedConversation = datas.sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateB - dateA;
+   });
 
    return (
       <div id="messenger">
          <div className="messenger__left">
-            {datas.map((data, key) => (
-               <div
-                  className="messenger__discussion"
-                  key={key}
-                  onClick={() => setSelectedConversationId(data._id)}
-               >
-                  <div className="messenger__discussion-picture">
-                     <Picture
-                        data={
-                           data.receiver === params.id
-                              ? data.sender
-                              : data.receiver
-                        }
-                     />
+            <form
+               onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSearch(e.target.search.value);
+               }}
+            >
+               <input type="text" name="search" placeholder="Recherche..." />
+               <button type="submit">Rechercher</button>
+            </form>
+            <div>
+               {searchResults.map((user) => (
+                  <div key={user._id}>
+                     <p>{user.name}</p>
+                     <button
+                        onClick={() => {
+                           handleCreateConversation(user);
+                        }}
+                     >
+                        {user.pseudo}
+                     </button>
                   </div>
-                  <div className="messenger__discussion-name">
-                     {data.receiver === params.id ? (
-                        <UserPostInformation data={data.sender} />
-                     ) : (
-                        <UserPostInformation data={data.receiver} />
-                     )}
+               ))}
+            </div>
+            {Array.isArray(sortedConversation) &&
+               sortedConversation.map((data, key) => (
+                  <div
+                     className="messenger__discussion"
+                     key={key}
+                     onClick={() => setSelectedConversationId(data._id)}
+                  >
+                     <div className="messenger__discussion-picture">
+                        <Picture
+                           data={
+                              data.receiver === params.id
+                                 ? data.sender
+                                 : data.receiver
+                           }
+                        />
+                     </div>
+                     <div className="messenger__discussion-name">
+                        {data.receiver === params.id ? (
+                           <UserPostInformation data={data.sender} />
+                        ) : (
+                           <UserPostInformation data={data.receiver} />
+                        )}
+                     </div>
                   </div>
-               </div>
-            ))}
+               ))}
          </div>
          {selectedConversationData ? (
             <div className="messenger__right">
@@ -123,11 +174,20 @@ export default function Messenger() {
                   />
                </div>
             </div>
-         ) : (
+         ) : conversation !== "" ? (
             <div className="messenger__right">
                <div className="messenger__right-bloc">
                   <div className="messenger__conversation"></div>
-                  {/* <CreateMessage addMessage={addMessage} /> */}
+               </div>
+            </div>
+         ) : (
+            <div className="messenger__right">
+               <div className="messenger__right-bloc">
+                  <div className="messenger__conversation">
+                     {createConversation ? (
+                        <CreateMessage conversationData={createConversation} />
+                     ) : null}
+                  </div>
                </div>
             </div>
          )}

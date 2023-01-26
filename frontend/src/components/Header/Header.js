@@ -26,9 +26,9 @@ export default function Header() {
          const results = await result.json();
          console.log(results);
          if (results.message === "Sign out") {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userId");
             navigate("/");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("token");
          }
       }
       fetchData();

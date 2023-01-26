@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
 export default function CreateMessage({ conversationData, addMessage }) {
+   console.log(conversationData);
    const sender = localStorage.getItem("userId");
-   const receiver = conversationData.receiver;
+   const receiver = conversationData.receiver || conversationData._id;
    const [message, setMessage] = useState("Aa");
    console.log(receiver, sender);
 
@@ -24,6 +25,7 @@ export default function CreateMessage({ conversationData, addMessage }) {
       );
       result = await result.json();
       console.log(result);
+      console.log(item);
       if (result.message === "Message sent successfully") {
          setMessage("");
          addMessage(item);
