@@ -29,9 +29,12 @@ exports.createMessage = async (req, res) => {
       } else {
          conversation.messages.push({ sender, message });
       }
+
       await conversation.save();
+      let conversationId = conversation._id;
       res.status(201).json({
          message: "Message sent successfully",
+         conversationId,
       });
    } catch (error) {
       res.status(500).json({ message: "Internal error" });
@@ -78,7 +81,6 @@ exports.deleteMessage = async (req, res) => {
       ) {
          return res.status(401).json({ message: "Not authorized" });
       }
-
       await deletedMessage.remove();
       res.status(200).json({ message: "Message deleted" });
    } catch (error) {

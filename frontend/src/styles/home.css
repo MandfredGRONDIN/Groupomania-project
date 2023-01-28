@@ -67,6 +67,7 @@
 .post__description{
     margin: 0 20px 10px 20px;
     font-size: 20px;
+    text-align: justify;
 }
 .post__img{
     margin: 20px 0 10px 0;
@@ -93,7 +94,7 @@
     width: 100%;
     height: 65px;
     font-size: 30px;
-    border-bottom: 2px inset;
+    border-bottom: 2px outset;
 }
 .post__like{
     width: 50%;
@@ -101,7 +102,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-right: 2px inset ;
     border-top: 2px inset;
     margin-bottom: 2px;
 }

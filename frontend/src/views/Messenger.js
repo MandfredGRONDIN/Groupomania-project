@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CreateMessage from "../components/Messenger/CreateMessage";
 import Picture from "../components/Picture";
 import UserPostInformation from "../components/UserPostInformation";
@@ -13,7 +13,16 @@ export default function Messenger() {
    const [conversation, setConversation] = useState([]);
    const [searchResults, setSearchResults] = useState([]);
    const [createConversation, setCreateConversation] = useState("");
+   const [isOpen, setIsOpen] = useState(false);
    const params = useParams();
+   const userIdToken = localStorage.getItem("userId");
+   const navigate = useNavigate();
+
+   useEffect(() => {
+      if (userIdToken !== params.id) {
+         navigate("/error");
+      }
+   });
 
    useEffect(() => {
       const conversation = document.querySelector(".messenger__conversation");
@@ -36,6 +45,7 @@ export default function Messenger() {
          );
          const result = await response.json();
          setDatas(result);
+         console.log(result);
       }
       fetchData();
       if (selectedConversationId) {
@@ -71,17 +81,37 @@ export default function Messenger() {
          }
       );
       const result = await response.json();
+      console.log(result);
       setSearchResults(result);
    };
 
    const addMessage = (newMessage) => {
-      setSelectedConversationData((prevData) => {
-         console.log(prevData);
-         return {
-            ...prevData,
-            messages: [...prevData.messages, newMessage],
-         };
-      });
+      if (selectedConversationData !== null) {
+         const token = localStorage.getItem("token");
+         async function fetchConversationData() {
+            const response = await fetch(
+               `${process.env.REACT_APP_API_URL}api/messenger/getone/${newMessage.convId}`,
+               {
+                  method: "GET",
+                  headers: {
+                     "Content-Type": "application/json",
+                     Accept: "application/json",
+                     Authorization: `Bearer ${token}`,
+                  },
+               }
+            );
+            const result = await response.json();
+            setSelectedConversationData(result);
+         }
+         fetchConversationData();
+      } else {
+         setSelectedConversationData((prevData) => {
+            return {
+               ...prevData,
+               messages: [...prevData.messages, newMessage],
+            };
+         });
+      }
    };
 
    const handleCreateConversation = (user) => {
@@ -97,29 +127,6 @@ export default function Messenger() {
    return (
       <div id="messenger">
          <div className="messenger__left">
-            <form
-               onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSearch(e.target.search.value);
-               }}
-            >
-               <input type="text" name="search" placeholder="Recherche..." />
-               <button type="submit">Rechercher</button>
-            </form>
-            <div>
-               {searchResults.map((user) => (
-                  <div key={user._id}>
-                     <p>{user.name}</p>
-                     <button
-                        onClick={() => {
-                           handleCreateConversation(user);
-                        }}
-                     >
-                        {user.pseudo}
-                     </button>
-                  </div>
-               ))}
-            </div>
             {Array.isArray(sortedConversation) &&
                sortedConversation.map((data, key) => (
                   <div
@@ -174,7 +181,7 @@ export default function Messenger() {
                   />
                </div>
             </div>
-         ) : conversation !== "" ? (
+         ) : conversation === "" ? (
             <div className="messenger__right">
                <div className="messenger__right-bloc">
                   <div className="messenger__conversation"></div>
@@ -182,10 +189,42 @@ export default function Messenger() {
             </div>
          ) : (
             <div className="messenger__right">
+               <form
+                  onSubmit={(e) => {
+                     e.preventDefault();
+                     handleSearch(e.target.search.value);
+                     setIsOpen(true);
+                  }}
+                  id="messenger__form-search"
+               >
+                  <input type="text" name="search" placeholder="Recherche..." />
+                  <button type="submit">
+                     <i className="fa-solid fa-magnifying-glass"></i>
+                  </button>
+               </form>
+               <div className={isOpen ? "search__results" : ""}>
+                  {searchResults.map((user, key) => (
+                     <div key={key}>
+                        <p>{user.name}</p>
+                        <button
+                           onClick={() => {
+                              setSelectedConversationData("");
+                              handleCreateConversation(user);
+                           }}
+                           className="button__messenger-search"
+                        >
+                           {user.pseudo}
+                        </button>
+                     </div>
+                  ))}
+               </div>
                <div className="messenger__right-bloc">
                   <div className="messenger__conversation">
                      {createConversation ? (
-                        <CreateMessage conversationData={createConversation} />
+                        <CreateMessage
+                           conversationData={createConversation}
+                           addMessage={addMessage}
+                        />
                      ) : null}
                   </div>
                </div>

@@ -107,7 +107,7 @@ exports.getOneUser = async (req, res) => {
       }
       return res.status(200).json(user);
    } catch (e) {
-      console.error("ici", e);
+      console.error(e);
       return res.status(500).json({ message: "Internal error" });
    }
 };

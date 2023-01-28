@@ -11,7 +11,7 @@ Home is working ( Create Post / Modify Post / Create comment / Modify comment / 
 
 Logout is working
 
-Messenger in progress ( Create Message from a conversation is working //// Create a conversation / Modify message / Delete message in progress)
+Messenger in progress ( Create a conversation / Create Message from a conversation is working ////  Modify message / Delete message in progress)
 
 Login screen 
 ![Login](https://user-images.githubusercontent.com/106658617/213933437-5bc42f61-01cd-4e39-850c-23c4a1e96239.PNG)

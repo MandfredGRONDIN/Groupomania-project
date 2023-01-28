@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../styles/profile.css";
 import Picture from "../components/Picture";
 
@@ -12,12 +12,20 @@ export default function Profile() {
    const [file, setFile] = useState();
    const [imagePreviewUrl, setImagePreviewUrl] = useState("");
    const params = useParams();
+   const userIdToken = localStorage.getItem("userId");
+   const navigate = useNavigate();
 
    let hideEmail = (email) => {
       let index = email.indexOf("@");
       index = index < 0 ? 0 : index;
       return "*".repeat(index) + email.substring(index);
    };
+
+   useEffect(() => {
+      if (userIdToken !== params.id) {
+         navigate("/error");
+      }
+   });
 
    useEffect(() => {
       async function fetchData() {
@@ -86,7 +94,10 @@ export default function Profile() {
             )}
             <div className="button__img">
                <label htmlFor="fileInput">
-                  <i className="fa-solid fa-camera"></i>
+                  <i
+                     className="fa-solid fa-camera change__picture"
+                     id="test"
+                  ></i>
                </label>
                <input
                   type="file"

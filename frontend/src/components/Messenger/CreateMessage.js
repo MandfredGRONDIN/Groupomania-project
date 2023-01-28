@@ -25,10 +25,12 @@ export default function CreateMessage({ conversationData, addMessage }) {
       );
       result = await result.json();
       console.log(result);
-      console.log(item);
+      let convId = result.conversationId;
+      console.log(item, convId);
+      let items = { sender, receiver, message, convId };
       if (result.message === "Message sent successfully") {
          setMessage("");
-         addMessage(item);
+         addMessage(items);
       }
    };
 
