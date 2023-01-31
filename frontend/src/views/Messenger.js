@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import CreateConversation from "../components/Messenger/CreateConversation";
 import CreateMessage from "../components/Messenger/CreateMessage";
 import Picture from "../components/Picture";
 import UserPostInformation from "../components/UserPostInformation";
@@ -45,7 +46,6 @@ export default function Messenger() {
          );
          const result = await response.json();
          setDatas(result);
-         console.log(result);
       }
       fetchData();
       if (selectedConversationId) {
@@ -81,16 +81,28 @@ export default function Messenger() {
          }
       );
       const result = await response.json();
-      console.log(result);
+      /* if (result === "") {
+         return <div>Not find</div>;
+      } */
       setSearchResults(result);
    };
+   console.log(searchResults);
 
    const addMessage = (newMessage) => {
+      setSelectedConversationData((prevData) => {
+         return {
+            ...prevData,
+            messages: [...prevData.messages, newMessage],
+         };
+      });
+   };
+
+   const addConversation = (newConversation) => {
       if (selectedConversationData !== null) {
          const token = localStorage.getItem("token");
          async function fetchConversationData() {
             const response = await fetch(
-               `${process.env.REACT_APP_API_URL}api/messenger/getone/${newMessage.convId}`,
+               `${process.env.REACT_APP_API_URL}api/messenger/getone/${newConversation.convId}`,
                {
                   method: "GET",
                   headers: {
@@ -104,13 +116,6 @@ export default function Messenger() {
             setSelectedConversationData(result);
          }
          fetchConversationData();
-      } else {
-         setSelectedConversationData((prevData) => {
-            return {
-               ...prevData,
-               messages: [...prevData.messages, newMessage],
-            };
-         });
       }
    };
 
@@ -125,7 +130,7 @@ export default function Messenger() {
    });
 
    return (
-      <div id="messenger">
+      <main id="messenger">
          <div className="messenger__left">
             {Array.isArray(sortedConversation) &&
                sortedConversation.map((data, key) => (
@@ -134,6 +139,7 @@ export default function Messenger() {
                      key={key}
                      onClick={() => setSelectedConversationId(data._id)}
                   >
+                     {console.log(data)}
                      <div className="messenger__discussion-picture">
                         <Picture
                            data={
@@ -208,8 +214,15 @@ export default function Messenger() {
                         <p>{user.name}</p>
                         <button
                            onClick={() => {
-                              setSelectedConversationData("");
-                              handleCreateConversation(user);
+                              datas.map((data) => {
+                                 (data.receiver === userIdToken ||
+                                    data.sender === userIdToken) &&
+                                 (data.receiver === user._id ||
+                                    data.sender === user._id)
+                                    ? setSelectedConversationId(data._id)
+                                    : setSelectedConversationData("");
+                                 handleCreateConversation(user);
+                              });
                            }}
                            className="button__messenger-search"
                         >
@@ -221,15 +234,15 @@ export default function Messenger() {
                <div className="messenger__right-bloc">
                   <div className="messenger__conversation">
                      {createConversation ? (
-                        <CreateMessage
+                        <CreateConversation
                            conversationData={createConversation}
-                           addMessage={addMessage}
+                           addMessage={addConversation}
                         />
                      ) : null}
                   </div>
                </div>
             </div>
          )}
-      </div>
+      </main>
    );
 }

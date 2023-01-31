@@ -8,7 +8,7 @@ export default function Login() {
    const [isRegister, setIsRegister] = useState(true);
 
    return (
-      <div className="login">
+      <main className="login">
          <div className="login__header">
             <img className="login__header-logo" src={logo} alt="Groupomania" />
          </div>
@@ -47,6 +47,6 @@ export default function Login() {
                </div>
             )}
          </div>
-      </div>
+      </main>
    );
 }

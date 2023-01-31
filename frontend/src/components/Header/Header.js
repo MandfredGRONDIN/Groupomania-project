@@ -22,9 +22,7 @@ export default function Header() {
                },
             }
          );
-         console.log(result);
          const results = await result.json();
-         console.log(results);
          if (results.message === "Sign out") {
             navigate("/");
             localStorage.removeItem("userId");
@@ -35,7 +33,7 @@ export default function Header() {
    };
 
    return (
-      <div id="header">
+      <header id="header">
          <div className="header__messenger">
             <Link to={`/messenger/${userId}`} id="header__messenger">
                <i className="fa-solid fa-message i__header"></i>
@@ -58,6 +56,6 @@ export default function Header() {
                ></i>
             </div>
          </nav>
-      </div>
+      </header>
    );
 }

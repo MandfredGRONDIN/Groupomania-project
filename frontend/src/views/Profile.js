@@ -81,7 +81,7 @@ export default function Profile() {
    };
 
    return (
-      <div id="profile">
+      <main id="profile">
          <div className="user__img">
             {imagePreviewUrl ? (
                <img
@@ -136,6 +136,6 @@ export default function Profile() {
                onClick={handleProfile}
             />
          </form>
-      </div>
+      </main>
    );
 }

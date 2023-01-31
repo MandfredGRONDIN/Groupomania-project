@@ -117,7 +117,7 @@
 }
 #messenger__form-search button{
     height: 100%;
-    width: 40px;
+    width: 45px;
     border-radius: 100%;
     border: none;
     margin-left: 20px;
@@ -139,4 +139,7 @@
     height: 200px;
     width: 300px;
     overflow-y: scroll;
+}
+.post__pseudo + div{
+    font-style: italic;
 }

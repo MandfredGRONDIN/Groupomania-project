@@ -31,7 +31,7 @@ export default function Home() {
       fetchData();
       const interval = setInterval(() => {
          fetchData();
-      }, 2000);
+      }, 1000);
       setIntervalId(interval);
       return () => clearInterval(interval);
    }, []);
@@ -51,7 +51,7 @@ export default function Home() {
             setData(data);
          }
          fetchData();
-      }, 2000);
+      }, 1000);
       setIntervalId(interval);
       return () => clearInterval(interval);
    };
@@ -90,7 +90,7 @@ export default function Home() {
    };
 
    return (
-      <div id="home">
+      <main id="home">
          <CreatePost addPost={addPost} intervalId={intervalId} />
          {sortedPosts.map((data, key) => (
             <div key={key} className="home__posts">
@@ -147,6 +147,6 @@ export default function Home() {
                </div>
             </div>
          ))}
-      </div>
+      </main>
    );
 }

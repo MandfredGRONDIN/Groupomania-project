@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 
-export default function CreateMessage({ conversationData, addMessage }) {
+export default function CreateConversation({ conversationData, addMessage }) {
    console.log(conversationData);
    const sender = localStorage.getItem("userId");
-   const receiver =
-      conversationData.receiver === sender
-         ? conversationData.sender
-         : conversationData.receiver;
+   const receiver = conversationData._id;
    const [message, setMessage] = useState("Aa");
    console.log(receiver, sender);
 
@@ -27,10 +24,10 @@ export default function CreateMessage({ conversationData, addMessage }) {
          }
       );
       result = await result.json();
-      /* console.log(result);
+      console.log(result);
       let convId = result.conversationId;
-      console.log(item, convId); */
-      let items = { sender, receiver, message };
+      console.log(item, convId);
+      let items = { sender, receiver, message, convId };
       if (result.message === "Message sent successfully") {
          setMessage("");
          addMessage(items);
