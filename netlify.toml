@@ -1,0 +1,25 @@
+[build]
+  # Répertoire racine du projet
+  base = "/"
+
+  # Commande de construction pour le frontend
+  command = "cd frontend && npm install && npm run build"
+
+  # Répertoire de construction du frontend
+  publish = "frontend/build"
+
+  # Commande de construction pour le backend
+  # Dans cet exemple, il est supposé que le backend est dans le répertoire "backend"
+  # et que le point d'entrée est "app.js"
+  functions = "backend/functions"
+  command = "cd backend && npm install && npm run build"
+
+[dev]
+  # Démarrage du frontend en développement
+  command = "cd frontend && npm install && npm start"
+
+  # Démarrage du backend en développement
+  # Dans cet exemple, il est supposé que le backend est dans le répertoire "backend"
+  # et que le point d'entrée est "app.js"
+  functions = "backend/functions"
+  command = "cd backend && npm install && npm start"
