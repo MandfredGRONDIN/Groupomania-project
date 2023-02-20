@@ -1,182 +1,183 @@
-body{
-    margin: 0;
-    background-color: #FFD7D7;
-    font-family: 'Lato', sans-serif;
+body {
+   margin: 0;
+   background-color: #ffd7d7;
+   font-family: "Lato", sans-serif;
 }
-input{
-    font-family: 'Lato', sans-serif;
-    font-weight: bold;
+input {
+   font-family: "Lato", sans-serif;
+   font-weight: bold;
 }
 /* ---------- Header ------------ */
-#header{
-    position: relative;
-    background-color: #4E5166;
-    height: 80px;
-    padding: 0 70px;
+#header {
+   position: relative;
+   background-color: #4e5166;
+   height: 80px;
+   padding: 0 70px;
 }
-#header__logo{
-    height: 100%;
-    position: absolute;
-    left: 50%;
+#header__logo {
+   height: 100%;
+   position: absolute;
+   left: 50%;
 }
-.header__logo{
-    width: 200px;
-    top: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
+.header__logo {
+   width: 200px;
+   top: 50%;
+   position: absolute;
+   transform: translate(-50%, -50%);
 }
-#header__profile{
-    display: flex;
-    justify-content: space-evenly;
-    position: absolute;
-    left: 85%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 25%;
+#header__profile {
+   display: flex;
+   justify-content: space-evenly;
+   position: absolute;
+   left: 85%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   width: 25%;
 }
-.header__messenger{
-    top: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
-    color: #4E5166;
-    background-color: #D9D9D9;
-    padding: 0;
-    width: 50px;
-    border-radius: 100%;
-    height: 50px;
+.header__messenger {
+   top: 50%;
+   position: absolute;
+   transform: translate(-50%, -50%);
+   color: #4e5166;
+   padding: 0;
+   border-radius: 100%;
 }
-#header__messenger,.header__profile{
-    color: #4E5166;
-    background-color: #D9D9D9;
-    padding: 0;
-    width: 50px;
-    border-radius: 100%;
-    height: 50px;
-    cursor: pointer;
-    overflow: hidden;
+#header__messenger,
+.header__profile {
+   color: #4e5166;
+   width: 50px;
+   border-radius: 100%;
+   height: 50px;
+   cursor: pointer;
+   overflow: hidden;
 }
-.post__picture{
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+.post__picture {
+   width: 50px;
+   height: 50px;
+   object-fit: cover;
 }
 
 /* --------- Fin Header --------- */
 /* ---------- Login ------------- */
-.login{
-    /*width: 100%;*/
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.login {
+   /*width: 100%;*/
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
-.login__header{
-    position: relative;
-    height: 98px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 30px 0 15px 0;
-    border-radius: 35px;
-    background-color: #4E5166;
-    text-align: center;
+.login__header {
+   position: relative;
+   height: 98px;
+   width: 100%;
+   max-width: 1200px;
+   margin: 30px 0 15px 0;
+   border-radius: 35px;
+   background-color: #4e5166;
+   text-align: center;
 }
-.login__header-logo{
-    width: 200px;
-    top: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
+.login__header-logo {
+   width: 200px;
+   top: 50%;
+   position: absolute;
+   transform: translate(-50%, -50%);
 }
-.login__body{
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-    min-height: 600px;
-    max-width: 1200px;
-    margin: 30px 0 15px 0;
-    border-radius: 35px;
-    background-color: #4E5166;
-    text-align: center;
+.login__body {
+   display: flex;
+   justify-content: center;
+   position: relative;
+   width: 100%;
+   min-height: 600px;
+   max-width: 1200px;
+   margin: 30px 0 15px 0;
+   border-radius: 35px;
+   background-color: #4e5166;
+   text-align: center;
 }
-.login__body-log{
-    width: 85%;
-    margin: 5% 0;
-    background: #FD2D01;
-    border-radius: 35px;
-    overflow: hidden;
+.login__body-log {
+   width: 85%;
+   margin: 5% 0;
+   background: #fd2d01;
+   border-radius: 35px;
+   overflow: hidden;
 }
-.login__body-button{
-    height: 20%;
+.login__body-button {
+   height: 20%;
 }
-.login__button{
-    width: 50%;
-    height: 100%;
-    font-size: 23px;
-    border: none;
-    background-color: #FFD7D7;
-    color: #FD2D01;
-    box-shadow: inset 0px -10px 20px rgb(0 0 0 / 30%);
-    cursor: pointer;
+.login__button {
+   width: 50%;
+   height: 100%;
+   font-size: 23px;
+   border: none;
+   background-color: #ffd7d7;
+   color: #fd2d01;
+   box-shadow: inset 0px -10px 20px rgb(0 0 0 / 30%);
+   cursor: pointer;
 }
-.login__button.actived{
-    background-color: #FD2D01;
-    color: #FFD7D7;
-    box-shadow: inset 0px -10px 20px rgb(0 0 0 / 8%);
-    cursor: default;
+.login__button.actived {
+   background-color: #fd2d01;
+   color: #ffd7d7;
+   box-shadow: inset 0px -10px 20px rgb(0 0 0 / 8%);
+   cursor: default;
 }
-.login__body-form{
-    display: flex;
-    justify-content: center;
-    height: 80%;
-    width: 100%;
-    padding-top: 40px;
+.login__body-form {
+   display: flex;
+   justify-content: center;
+   height: 80%;
+   width: 100%;
+   padding-top: 40px;
 }
-.login__body-register{
-    width: 85%;
-    margin: 5% 0;
-    background: #FD2D01;
-    border-radius: 35px;
-    overflow: hidden;
+.login__body-register {
+   width: 85%;
+   margin: 5% 0;
+   background: #fd2d01;
+   border-radius: 35px;
+   overflow: hidden;
 }
-#sign__up-form,#register-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    height: 80%;
-    width: 50%;
+#sign__up-form,
+#register-form {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+   height: 80%;
+   width: 50%;
 }
-#pseudo,#email,#password__check,#password{
-    background-color: #FFD7D7;
-    color: #FD2D01;
-    font-size: 20px;
-    border: none;
-    width: 100%;
-    padding: 10px 0 10px 35px;
-    outline: none;
+#pseudo,
+#email,
+#password__check,
+#password {
+   background-color: #ffd7d7;
+   color: #fd2d01;
+   font-size: 20px;
+   border: none;
+   width: 100%;
+   padding: 10px 0 10px 35px;
+   outline: none;
 }
-#login__submit,#register__submit{
-    background-color: #FFD7D7;
-    color: #FD2D01;
-    font-size: 20px;
-    border: none;
-    border-radius: 20px;
-    height: 50px;
-    cursor: pointer;
+#login__submit,
+#register__submit {
+   background-color: #ffd7d7;
+   color: #fd2d01;
+   font-size: 20px;
+   border: none;
+   border-radius: 20px;
+   height: 50px;
+   cursor: pointer;
 }
-.form__input{
-    display: flex;
-    position: relative;
+.form__input {
+   display: flex;
+   position: relative;
 }
-.icone{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    height: 100%;
-    width: 35px;
-    font-size: 16px;
-    color: #FD2D01;
+.icone {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: absolute;
+   height: 100%;
+   width: 35px;
+   font-size: 16px;
+   color: #fd2d01;
 }
-.error{
-    color: #FFD7D7;
-    font-size: 20px;
+.error {
+   color: #ffd7d7;
+   font-size: 20px;
 }

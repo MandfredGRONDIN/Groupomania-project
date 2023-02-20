@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateConversation from "../components/Messenger/CreateConversation";
 import CreateMessage from "../components/Messenger/CreateMessage";
+import DeleteConversation from "../components/Messenger/DeleteConversation";
 import Picture from "../components/Picture";
 import UserPostInformation from "../components/UserPostInformation";
 import "../styles/messenger.css";
@@ -93,7 +94,6 @@ export default function Messenger() {
       } */
       setSearchResults(result);
    };
-   console.log(searchResults);
 
    /* Ajout des messages quand on les envoies */
    const addMessage = (newMessage) => {
@@ -165,6 +165,7 @@ export default function Messenger() {
                            <UserPostInformation data={data.receiver} />
                         )}
                      </div>
+                     <DeleteConversation data={data} />
                   </div>
                ))}
          </div>

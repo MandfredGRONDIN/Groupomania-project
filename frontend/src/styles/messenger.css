@@ -1,7 +1,6 @@
 #messenger {
    display: flex;
-   min-height: 500px;
-   height: 100%;
+   height: 100vh;
 }
 .messenger__left {
    display: flex;
@@ -23,7 +22,7 @@
    width: 65%;
    margin: 20px 0;
 }
-.messenger__discussion-picture {
+/* .messenger__discussion-picture {
    color: #4e5166;
    background-color: #d9d9d9;
    padding: 0;
@@ -32,7 +31,7 @@
    height: 50px;
    cursor: pointer;
    overflow: hidden;
-}
+} */
 .messenger__discussion-name {
    display: flex;
    align-items: center;
@@ -115,6 +114,7 @@
    cursor: pointer;
 }
 #messenger__form-search button {
+   background: #ffd7d7;
    height: 100%;
    width: 45px;
    border-radius: 100%;
