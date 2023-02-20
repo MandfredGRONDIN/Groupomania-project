@@ -35,6 +35,7 @@ export default function Home() {
       setIntervalId(interval);
       return () => clearInterval(interval);
    }, []);
+
    const refreshData = async (e) => {
       const interval = setInterval(() => {
          async function fetchData() {

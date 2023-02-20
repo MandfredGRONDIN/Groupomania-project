@@ -15,21 +15,26 @@ export default function Messenger() {
    const [searchResults, setSearchResults] = useState([]);
    const [createConversation, setCreateConversation] = useState("");
    const [isOpen, setIsOpen] = useState(false);
+   const [messengerIsOpen, setMessengerIsOpen] = useState(true);
    const params = useParams();
    const userIdToken = localStorage.getItem("userId");
    const navigate = useNavigate();
 
+   // Redirection vers la page erreur si le token userId est différent de celui de l'url
    useEffect(() => {
       if (userIdToken !== params.id) {
          navigate("/error");
       }
    });
 
+   // Permet de scroll tout en bas lorsqu'on arrive sur une conversation
    useEffect(() => {
       const conversation = document.querySelector(".messenger__conversation");
       conversation.scrollTop = conversation.scrollHeight;
    }, [selectedConversationData]);
 
+   /* Récupération des conversations
+   Si selectedConversationId return true alors il fait un fetch pour récupérer les données de la conversation */
    useEffect(() => {
       const token = localStorage.getItem("token");
       async function fetchData() {
@@ -68,6 +73,8 @@ export default function Messenger() {
       }
    }, [selectedConversationId]);
 
+   /* Fonction pour récupérer les utilisateurs dans la bdd 
+   par rapport à leur pseudo lorsqu'on les recherches */
    const handleSearch = async (query) => {
       const response = await fetch(
          `${process.env.REACT_APP_API_URL}api/auth/search?user=${query}`,
@@ -88,6 +95,7 @@ export default function Messenger() {
    };
    console.log(searchResults);
 
+   /* Ajout des messages quand on les envoies */
    const addMessage = (newMessage) => {
       setSelectedConversationData((prevData) => {
          return {
@@ -97,6 +105,7 @@ export default function Messenger() {
       });
    };
 
+   /* Ajout de la conversation si on en as pas */
    const addConversation = (newConversation) => {
       if (selectedConversationData !== null) {
          const token = localStorage.getItem("token");
@@ -123,6 +132,7 @@ export default function Messenger() {
       setCreateConversation(user);
    };
 
+   /* Tri des conversations par ordre de création */
    const sortedConversation = datas.sort((a, b) => {
       const dateA = new Date(a.createdAt);
       const dateB = new Date(b.createdAt);
@@ -139,7 +149,6 @@ export default function Messenger() {
                      key={key}
                      onClick={() => setSelectedConversationId(data._id)}
                   >
-                     {console.log(data)}
                      <div className="messenger__discussion-picture">
                         <Picture
                            data={
@@ -187,14 +196,26 @@ export default function Messenger() {
                   />
                </div>
             </div>
-         ) : conversation === "" ? (
-            <div className="messenger__right">
-               <div className="messenger__right-bloc">
-                  <div className="messenger__conversation"></div>
-               </div>
-            </div>
          ) : (
             <div className="messenger__right">
+               <div className="messenger__right-bloc">
+                  <div className="messenger__conversation">
+                     {createConversation ? (
+                        <CreateConversation
+                           conversationData={createConversation}
+                           addMessage={addConversation}
+                        />
+                     ) : null}
+                  </div>
+               </div>
+            </div>
+         )}
+         {messengerIsOpen ? (
+            <div className="messenger__bloc-search">
+               <i
+                  className="fa-solid fa-xmark"
+                  onClick={() => setMessengerIsOpen(false)}
+               ></i>
                <form
                   onSubmit={(e) => {
                      e.preventDefault();
@@ -231,16 +252,13 @@ export default function Messenger() {
                      </div>
                   ))}
                </div>
-               <div className="messenger__right-bloc">
-                  <div className="messenger__conversation">
-                     {createConversation ? (
-                        <CreateConversation
-                           conversationData={createConversation}
-                           addMessage={addConversation}
-                        />
-                     ) : null}
-                  </div>
-               </div>
+            </div>
+         ) : (
+            <div className="messenger__bloc-open">
+               <i
+                  className="fa-solid fa-magnifying-glass looking"
+                  onClick={() => setMessengerIsOpen(true)}
+               ></i>
             </div>
          )}
       </main>

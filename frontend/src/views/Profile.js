@@ -15,18 +15,24 @@ export default function Profile() {
    const userIdToken = localStorage.getItem("userId");
    const navigate = useNavigate();
 
+   //Fonction pour cacher le début de l'email
    let hideEmail = (email) => {
       let index = email.indexOf("@");
       index = index < 0 ? 0 : index;
       return "*".repeat(index) + email.substring(index);
    };
 
+   //Redirection vers la page erreur si le token userId est différent de celui de l'url
    useEffect(() => {
       if (userIdToken !== params.id) {
          navigate("/error");
       }
    });
 
+   /* 
+      Récupération des données de l'utilisateur avec l'id dans l'url
+      Ajout des données grâce au state
+   */
    useEffect(() => {
       async function fetchData() {
          const response = await fetch(
@@ -46,14 +52,18 @@ export default function Profile() {
       fetchData();
    }, [params]);
 
+   /* Fonction pour gérer le changement d'image/pseudo */
    const handleProfile = async (e) => {
       e.preventDefault();
       const token = localStorage.getItem("token");
       const data = new FormData();
+
+      //Récupération des donnés que l'on souhaite changer
       data.append("pseudo", pseudo);
       if (file) {
          data.append("image", file);
       }
+
       try {
          const result = await axios.put(
             `${process.env.REACT_APP_API_URL}api/auth/modify/${params.id}`,
@@ -74,9 +84,11 @@ export default function Profile() {
       }
    };
 
+   // Fonction pour gérer le changement d'image
    const handleFileChange = (e) => {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
+      // Prévisualisation de l'image
       setImagePreviewUrl(URL.createObjectURL(selectedFile));
    };
 
